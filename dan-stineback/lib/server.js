@@ -5,7 +5,7 @@ const router = require(__dirname + ('/server'));
 const app = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-const myRouter = express.Router();
+
 
 app.use(jsonParser);
 
