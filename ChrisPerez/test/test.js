@@ -3,7 +3,7 @@ const chaiHTTP  = require('chai-http');
 const expect    = chai.expect;
 chai.use(chaiHTTP);
 const request   = chai.request;
-const crud      = require(__dirname + '/../../crud.js');
+const crud      = require(__dirname + '/../lib/crud.js');
 
 describe('crud app test', () => {
   it('should hit the GET stuff route', (done) => {
