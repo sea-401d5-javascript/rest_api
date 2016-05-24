@@ -34,10 +34,9 @@ app.patch('/zoots', (req, res) => {
   console.log('Patchy patchface. ');
   res.json({message: 'Just a small fix JSON'});
 });
-app.delete('/:id', (req, res) => {
+app.delete('/zoots', (req, res) => {
   console.log('Seek and destroy! ');
-  let mes = req.params.id + ' Nothing to see here folks';
-  res.send(mes);
+  res.send({message: 'Nothing to see here folks'});
 });
 
 app.get('/*', (req, res) => {

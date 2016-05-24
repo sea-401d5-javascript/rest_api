@@ -16,8 +16,8 @@ const myRouter = express.Router();
 app.use(jsonParser);
 require('../index');
 
-describe('testing paths', () => {
-  it('should return a message', (done) => {
+describe('testing path', () => {
+  it('should return GET message', (done) => {
     request('localhost:3000')
     .get('/')
     .end((err, res) => {
@@ -27,9 +27,9 @@ describe('testing paths', () => {
       done();
     });
   });
-  it('should write to page when post request is made', (done) => {
+  it('should write POST mesage', (done) => {
     request('localhost:3000')
-    .post('/post')
+    .post('/zoots')
     .send({})
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -38,9 +38,9 @@ describe('testing paths', () => {
       done();
     });
   });
-  it('should write to page when put request is made', (done) => {
+  it('should write PUT message', (done) => {
     request('localhost:3000')
-    .put('/put')
+    .put('/zoots')
     .send({})
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -49,9 +49,9 @@ describe('testing paths', () => {
       done();
     });
   });
-  it('should write to page when patch request is made', (done) => {
+  it('should write PATCH message', (done) => {
     request('localhost:3000')
-    .patch('/patch')
+    .patch('/zoots')
     .send({})
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -60,6 +60,18 @@ describe('testing paths', () => {
       done();
     });
   });
+  it('should test DELETE and write new message', (done) => {
+    request('localhost:3000')
+    .delete('/zoots')
+    .send({})
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res).to.have.status(2);
+      expect(res.text).to.eql('{"message":"Nothing to see here folks test test"}')
+    });
+
+    done();
+  })
   it('should respond with 404 to bad path', () => {
     request('localhost:3000')
     .get('/*')
