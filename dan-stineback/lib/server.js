@@ -34,12 +34,13 @@ app.patch('/zoots', (req, res) => {
   console.log('Patchy patchface. ');
   res.json({message: 'Just a small fix JSON'});
 });
+
 app.delete('/zoots', (req, res) => {
   console.log('Seek and destroy! ');
-  res.send({message: 'Nothing to see here folks'});
+  res.json({message: 'Nothing to see here folks'});
 });
 
 app.get('/*', (req, res) => {
-  res.status(404).json({msg: 'not found'});
+  res.status(404).json({message: 'not found'});
 });
 app.listen(3000, () => console.log('server is up on 3000'));

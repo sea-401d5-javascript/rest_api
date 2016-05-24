@@ -19,11 +19,11 @@ require('../index');
 describe('testing path', () => {
   it('should return GET message', (done) => {
     request('localhost:3000')
-    .get('/')
+    .get('/zoots')
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
-      expect(res.text).to.eql('Mission accomplished. Time for a beer.  ');
+      expect(res.text).to.eql('Zoots Zoots. ');
       done();
     });
   });
@@ -66,19 +66,19 @@ describe('testing path', () => {
     .send({})
     .end((err, res) => {
       expect(err).to.eql(null);
-      expect(res).to.have.status(2);
-      expect(res.text).to.eql('{"message":"Nothing to see here folks test test"}')
+      expect(res).to.have.status(200);
+      expect(res.text).to.eql('{"message":"Nothing to see here folks"}')
+      done();
     });
-
-    done();
   })
-  it('should respond with 404 to bad path', () => {
+  it('should respond with 404 not found', (done) => {
     request('localhost:3000')
     .get('/*')
     .end((err, res) => {
       expect(err).to.not.eql(null);
       expect(res).to.have.status(404);
-      expect(res.text).to.eql('not found');
+      expect(res.text).to.eql('{"message":"not found"}');
+      done();
     });
   });
 });
