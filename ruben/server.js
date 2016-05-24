@@ -7,7 +7,7 @@ const playerRouter = express.Router();
 
 app.use(jsonParser);
 
-playerRouter.get('/players', (req, res) => {
+playerRouter.get('/', (req, res) => {
   res.send('PLAYERS');
 });
 
@@ -16,7 +16,7 @@ playerRouter.delete('/:id', (req, res) => {
   res.send(message);
 });
 
-app.get('/playerName', (req, res) => {
+app.get('/', (req, res) => {
   console.log('get route hit')
   res.send('HELLO');
 });
@@ -29,20 +29,20 @@ app.get('/:id', (req, res) => {
   res.json({message: id.toUpperCase()});
 });
 
-app.post('/post', (req, res) => {
+app.post('/', (req, res) => {
   console.log('post route hit');
   console.log('Request Body:', req.body);
   res.json({message: 'Hello from post route'});
 });
 
-app.put('/put', (req, res) => {
+app.put('/', (req, res) => {
   console.log('put route hit');
   res.writeHead(200, {'Content-type': 'application/json'});
   res.write(JSON.stringify({message: 'Hello from put route'}));
   res.end();
 });
 
-app.delete('/delete', (req, res) => {
+app.delete('/', (req, res) => {
   console.log('delete route hit');
 });
 
