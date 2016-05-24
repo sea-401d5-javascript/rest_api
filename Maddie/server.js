@@ -49,6 +49,12 @@ firstRouter.delete('/:frenchie_id', (req,res) => {
   res.send('deleted frenchie' + '\n')
 })
 
-
 app.use('/frenchies', firstRouter);
+
+app.get('/*', (req,res) => {
+  res.status(404).send('Not Found');
+})
+
+
+
 app.listen(3000, () => console.log('listening on 3000'));
