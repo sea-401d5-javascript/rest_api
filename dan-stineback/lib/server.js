@@ -20,17 +20,17 @@ app.get('/zoots', (req, res) => {
   res.send('Zoots Zoots. ');
 });
 
-app.post('/post', (req, res) => {
+app.post('/zoots', (req, res) => {
   console.log('Hey Mr. Post-man. ');
   res.json({message: 'This is some sweet sweet JSON. '});
 });
 
-app.put('/put', (req, res) => {
+app.put('/zoots', (req, res) => {
   console.log('Put your hands up! ');
   res.json({message: 'Party Under Trees JSON '});
 });
 
-app.patch('/patch', (req, res) => {
+app.patch('/zoots', (req, res) => {
   console.log('Patchy patchface. ');
   res.json({message: 'Just a small fix JSON'});
 });
