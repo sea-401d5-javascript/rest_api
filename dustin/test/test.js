@@ -8,7 +8,7 @@ chai.use(chaiHTTP);
 const request = chai.request;
 require('../server');
 
-var dbEntries = fs.readdirSync('./data').length
+var dbEntries = fs.readdirSync('./data').length;
 var payload = {
   company: 'Tanktest',
   seek_dollar: '200000',
@@ -16,7 +16,7 @@ var payload = {
   id: (dbEntries + 1)
 };
 
-  describe('Shark tank API should', function () {
+describe('Shark tank API should', function () {
   it('accept a POST request to /companies', function (done) {
     request('localhost:3000')
       .post('/companies')
@@ -29,19 +29,16 @@ var payload = {
       });
   });
 
-
-    it('list all companies in the "database"', function (done) {
-      request('localhost:3000')
-        .get('/companies')
-        .end(function (err, res) {
-          expect(err).to.eql(null);
-          expect(res).to.have.status(200);
-          expect(res.body.length).to.eql(dbEntries + 1)
-          done();
-        });
-    });
-
-
+  it('list all companies in the "database"', function (done) {
+    request('localhost:3000')
+      .get('/companies')
+      .end(function (err, res) {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.length).to.eql(dbEntries + 1);
+        done();
+      });
+  });
 
   it('list a company by id', function (done) {
     request('localhost:3000')
@@ -49,7 +46,7 @@ var payload = {
       .end(function (err, res) {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
-        expect(res.body).to.eql(payload)
+        expect(res.body).to.eql(payload);
         done();
       });
   });
@@ -64,7 +61,6 @@ var payload = {
   //       done();
   //     });
   // });
-
 
   it('properly DELETE', function (done) {
     request('localhost:3000')

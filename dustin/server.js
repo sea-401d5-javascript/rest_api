@@ -14,7 +14,7 @@ app.use('/companies', companies);
 
 
 app.get('/*', (req,res) => {
-  res.status(404).json({Error:'Not Found'})
-})
+  res.status(404).json({Error:'Not Found'});
+});
 
 app.listen(3000, () => console.log('up on 3000'));
