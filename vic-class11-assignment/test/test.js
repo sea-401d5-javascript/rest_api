@@ -16,7 +16,7 @@ describe('Testing CRUD routes', () => {
     request('localhost:3000')
     .get('/*')
     .end((err, res) => {
-      expect(err).to.not.eql(null);
+      expect(err).to.eql(null);
       expect(res).to.have.status(404);
       expect(res.text).to.eql('not found')
       done();
@@ -66,7 +66,7 @@ describe('Testing CRUD routes', () => {
     request('localhost:3000')
     .delete('/articles')
     .end((err, res) => {
-      expect(err).to.not.eql(null);
+      expect(err).to.eql(null);
       expect(res).to.have.status(200)
       expect(res.text).to.eql('{"message":"delete success"}');
       done();

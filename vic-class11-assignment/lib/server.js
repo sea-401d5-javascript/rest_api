@@ -25,7 +25,12 @@ app.use((req, res, next) => {
 })
 
 myRouter.get('/', (req, res) => {
-  res.send('You get me');
+  res.type('json');
+  if (model.data) {
+    res.json(model.data);
+  } else {
+    res.json(model.nodata)
+  }
 });
 
 app.get('/:id', (req, res) => {
@@ -33,20 +38,28 @@ app.get('/:id', (req, res) => {
   res.json({message: id.toUpperCase()});
 });
 
-app.post('/articles', (req, res) => {
-  res.json({message: 'post success'})
+myRouter.post('/articles', (req, res) => {
+  res.type('json');
+  res.json({message: 'post success', data: req.body});
 });
 
-app.put('/articles', (req, res) => {
+myRouter.put('/articles', (req, res) => {
   res.json({message: 'put success'});
 });
 
-app.patch('/articles', (req, res) => {
+myRouter.patch('/articles', (req, res) => {
   res.json({message: 'patch success'});
 });
 
-app.delete('/articles', (req, res) => {
+myRouter.delete('/articles', (req, res) => {
   res.json({message: 'delete success'});
+});
+
+app.use('/articles', myRouter);
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(err.statusCode || 500).json({message: err.message});
 });
 
 app.get('/*', (req, res) => {
