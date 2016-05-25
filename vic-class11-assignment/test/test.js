@@ -12,13 +12,14 @@ const server = require(__dirname + '/../lib/server');
 require('../index');
 
 describe('Testing CRUD routes', () => {
-  it('should respond with 404 to bad path', () => {
+  it('should respond with 404 to bad path', (done) => {
     request('localhost:3000')
-    .get('/badpath')
+    .get('/*')
     .end((err, res) => {
       expect(err).to.not.eql(null);
       expect(res).to.have.status(404);
       expect(res.text).to.eql('not found')
+      done();
     });
   });
   it('should return a get message', (done) => {
@@ -27,7 +28,7 @@ describe('Testing CRUD routes', () => {
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
-      expect(res.text).to.eql('get success\n');
+      expect(res.text).to.eql('{"message":"ARTICLES"}');
       done();
     });
   });
@@ -37,7 +38,7 @@ describe('Testing CRUD routes', () => {
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
-      expect(res.text).to.eql('post success\n');
+      expect(res.text).to.eql('{"message":"post success"}');
       done();
     });
   });
@@ -47,7 +48,7 @@ describe('Testing CRUD routes', () => {
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200)
-      expect(res.text).to.eql('put success\n');
+      expect(res.text).to.eql('{"message":"put success"}');
       done();
     });
   });
@@ -57,16 +58,18 @@ describe('Testing CRUD routes', () => {
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200)
-      expect(res.text).to.eql('patch success\n');
+      expect(res.text).to.eql('{"message":"patch success"}');
+      done();
     });
   });
   it('should return a delete message', (done) => {
     request('localhost:3000')
     .delete('/articles')
     .end((err, res) => {
-      expect(err).to.eql(null);
+      expect(err).to.not.eql(null);
       expect(res).to.have.status(200)
-      expect(res.text).to.eql('delete success\n');
+      expect(res.text).to.eql('{"message":"delete success"}');
+      done();
     });
   });
 });
