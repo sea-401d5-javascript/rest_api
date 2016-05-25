@@ -4,7 +4,7 @@ const mocha = require('gulp-mocha');
 const express = require('express');
 
 gulp.task('lint', () => {
-  gulp.src('./name.js')
+  gulp.src('./server.js')
     .pipe(eslint({
       "ecmaVersion": 6
     }))
