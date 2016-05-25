@@ -12,29 +12,29 @@ const server = require(__dirname + '/../lib/server');
 require('../index');
 
 describe('Testing CRUD routes', () => {
-  it('should respond with 404 to bad path', (done) => {
+  it('should respond with 404 to bad path', () => {
     request('localhost:3000')
-    .get('/*')
+    .get('/badpath')
     .end((err, res) => {
-      expect(err).to.eql(null);
+      expect(err).to.not.eql(null);
       expect(res).to.have.status(404);
-      expect(res.text).to.eql('not found')
-      done();
+      expect(res.text).to.eql('{"message":"not found"}');
     });
   });
   it('should return a get message', (done) => {
-    request('localhost:3000')
-    .get('/articles')
+    request('localhost:3000/articles')
+    .get('/more')
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
-      expect(res.text).to.eql('{"message":"ARTICLES"}');
+      expect(res.text).to.eql('{"message":"MORE"}');
       done();
     });
   });
   it('should return a post message', (done) => {
-    request('localhost:3000')
-    .post('/articles')
+    request('localhost:3000/articles')
+    .post('/')
+    .send({})
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
@@ -43,8 +43,9 @@ describe('Testing CRUD routes', () => {
     });
   });
   it('should return a put message', (done) => {
-    request('localhost:3000')
-    .put('/articles')
+    request('localhost:3000/articles')
+    .put('/')
+    .send({})
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200)
@@ -53,8 +54,9 @@ describe('Testing CRUD routes', () => {
     });
   });
   it('should return a patch message', (done) => {
-    request('localhost:3000')
-    .patch('/articles')
+    request('localhost:3000/articles')
+    .patch('/')
+    .send({})
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200)
@@ -63,8 +65,8 @@ describe('Testing CRUD routes', () => {
     });
   });
   it('should return a delete message', (done) => {
-    request('localhost:3000')
-    .delete('/articles')
+    request('localhost:3000/articles')
+    .delete('/')
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200)
