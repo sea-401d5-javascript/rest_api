@@ -1,3 +1,3 @@
-const start = require(__dirname + '/lib/router');
+const start = require(__dirname + '/lib/server');
 
 start();
