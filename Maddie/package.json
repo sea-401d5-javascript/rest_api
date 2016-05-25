@@ -1,0 +1,28 @@
+{
+  "name": "rest_api",
+  "version": "1.0.0",
+  "description": "##To Submit this Assignment   * fork this repository   * write all of your code in a folder containing your name   * push to your repository   * submit a pull request to this repository   * submit a link to your PR in canvas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdar22169/rest_api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdar22169/rest_api/issues"
+  },
+  "homepage": "https://github.com/jdar22169/rest_api#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.5.1"
+  }
+}
