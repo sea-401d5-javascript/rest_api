@@ -13,6 +13,7 @@ app.use('/', routes);
 app.use('/companies', companies);
 
 
+
 app.get('/*', (req,res) => {
   res.status(404).json({Error:'Not Found'});
 });
