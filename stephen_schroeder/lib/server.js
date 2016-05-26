@@ -6,43 +6,37 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const myRoute = express.Router();
 
-module.exports = exports = function start() {
-  app.use(jsonParser);
+app.use(jsonParser);
+app.use('/tNails', myRoute);
 
+myRoute.get('/:id', (req, res)=>{
+  let id = req.params.id;
+  res.json({message: id});
+})
 
-  myRoute.post('/', (req, res) => {
-    console.log('post route hit!');
-    console.log('Request Body:', req.body);
-    res.json({ msg: 'crassIsNotSass'});
-  });
+myRoute.post('/', (req, res)=>{
+  res.json({name: 'Confederacy of Dunces'});
+})
 
-  myRoute.get('/:id', (req, res) => {
-    let id = req.params.id;
-    console.log('hello from the get route');
-    res.json({ msg: id.toUpperCase() });
-  });
+myRoute.put('/:id', (req, res)=>{
+  let id = req.params.id;
+  res.json({message: 'file ' + id + ' has been changed'});
+})
 
-  myRoute.delete('/:id', (req, res) => {
-    let id = req.params.id;
-    console.log('removing files by id');
-    res.json({ msg: 'File ' + id + ' has been removed' });
-  })
+myRoute.patch('/:id', (req, res)=>{
+  let id = req.params.id;
+  res.json({message: 'the file ' + id + ' has been changed'});
+})
 
-  myRoute.put('/:id', (req, res) => {
-    let id = req.params.id;
-    res.json({message: 'Hello from ' + id + ' put route'});
-  });
+myRoute.delete('/:id', (req, res)=>{
+  let id = req.params.id;
+  res.json({message: 'the file ' + id + ' has been removed'});
+})
 
-  myRoute.patch('/:id', (req, res) => {
-    console.log('file changed!');
-    res.json({ msg: 'File ' + id + ' has been changed' });
-  });
+app.get('/*', (req, res)=>{
+  res.status(404).json({message:'NOT FOUND'});
+})
 
-  myRoute.get('/*,', (req, res) => {
-    res.status(404).json({msg: 'not found'});
-  });
-}
-
-app.use('/icoMatch', myRoute);
-
-app.listen(3000, () => console.log('up on 3000'));
+app.listen(3000, ()=>{
+  console.log('Server up on 3000')
+})
