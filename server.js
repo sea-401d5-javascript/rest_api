@@ -34,28 +34,30 @@ rooneyRouter.get('/', (req, res) => {
   });
 });
 
-rooneyRouter.get('/:id', (req,res) => {
-  let id = req.params.id;
-  console.log('hello from id get route');
-  res.json({message: id.toUpperCase()})
-})
-
-rooneyRouter.post('/', (req, res) => {
-  console.log('hit post route');
-  let rooney = '';
-    req.on('data', (data) => {
-      rooney += data.toString();
+rooneyRouter.post('/', jsonParser,  (req, res) => {
+  let newRooney = new Rooney(req.body);
+  newRooney.save((err, data) => {
+    if(err) return res.json({
+      message: err.message
     });
-    req.on('end', () => {
-      let nextFile = (fs.readdirSync(dir)).length +1
-      let file = fs.createWriteStream(dir + '/' + nextFile + '.json')
-      var bufferStream = new stream.PassThrough();
-      let inBuf = new Buffer(rooney);
-      bufferStream.end(inBuf);
-      bufferStream.pipe(file);
-      res.json({message: 'Wrote a new file'});
-    })
-})
+    res.json(data);
+  });
+  // console.log('hit post route');
+  // let rooney = '';
+  //   req.on('data', (data) => {
+  //     rooney += data.toString();
+  //   });
+  //   req.on('end', () => {
+  //     let nextFile = (fs.readdirSync(dir)).length +1
+  //     let file = fs.createWriteStream(dir + '/' + nextFile + '.json')
+  //     var bufferStream = new stream.PassThrough();
+  //     let inBuf = new Buffer(rooney);
+  //     bufferStream.end(inBuf);
+  //     bufferStream.pipe(file);
+  //     res.json({message: 'Wrote a new file'});
+  //   })
+
+});
 
 rooneyRouter.put('/:id', (req, res) => {
   console.log('rooneyRouter put hit');
