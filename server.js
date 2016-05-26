@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const Rooney = require('./schema/rooney');
 const rooneyRouter = express.Router();
 const fs = require('fs');
 const stream = require('stream');
@@ -24,8 +25,14 @@ rooneyRouter.use(jsonParser);
 app.use('/rooney', rooneyRouter);
 
 rooneyRouter.get('/', (req, res) => {
-  res.send('GLORY MAN UNITED')
-})
+  // res.send('GLORY MAN UNITED')
+  Rooney.find({}, (err,data) => {
+    if(err) return res.json({
+      message: err.message
+    });
+    res.json(data);
+  });
+});
 
 rooneyRouter.get('/:id', (req,res) => {
   let id = req.params.id;
