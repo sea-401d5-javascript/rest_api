@@ -25,7 +25,6 @@ rooneyRouter.use(jsonParser);
 app.use('/rooney', rooneyRouter);
 
 rooneyRouter.get('/', (req, res) => {
-  // res.send('GLORY MAN UNITED')
   Rooney.find({}, (err,data) => {
     if(err) return res.json({
       message: err.message
@@ -42,21 +41,6 @@ rooneyRouter.post('/', jsonParser,  (req, res) => {
     });
     res.json(data);
   });
-  // console.log('hit post route');
-  // let rooney = '';
-  //   req.on('data', (data) => {
-  //     rooney += data.toString();
-  //   });
-  //   req.on('end', () => {
-  //     let nextFile = (fs.readdirSync(dir)).length +1
-  //     let file = fs.createWriteStream(dir + '/' + nextFile + '.json')
-  //     var bufferStream = new stream.PassThrough();
-  //     let inBuf = new Buffer(rooney);
-  //     bufferStream.end(inBuf);
-  //     bufferStream.pipe(file);
-  //     res.json({message: 'Wrote a new file'});
-  //   })
-
 });
 
 rooneyRouter.put('/', jsonParser, (req, res) => {
@@ -64,19 +48,19 @@ rooneyRouter.put('/', jsonParser, (req, res) => {
     if(err) return res.json({message: err.message});
     res.json(data);
   });
-  // console.log('rooneyRouter put hit');
-  // let id = req.params.id;
-  // var stream = fs.createWriteStream(dir + '/' + id + '.json');
-  // req.pipe(stream);
-  // res.send('Updated Rooney' + '\n');
 });
 
-rooneyRouter.delete('/:id', (req, res) => {
-  console.log('delete route hit');
-  let id = req.params.id;
-  fs.unlinkSync(__dirname + `/../data/${id}.json`)
-  res.send(`File ${id}.json successfully deleted`)
-})
+rooneyRouter.delete('/:id', jsonParser, (req, res) => {
+  let _id = req.params.id;
+  Rooney.findOneAndRemove({_id}, null, (err,data) => {
+    if(err) return res.json({message: err.message});
+    res.send('deleted Rooney with id ' + req.params.id);
+  });
+  // console.log('delete route hit');
+  // let id = req.params.id;
+  // fs.unlinkSync(__dirname + `/../data/${id}.json`)
+  // res.send(`File ${id}.json successfully deleted`)
+});
 
 app.get('/*', (req, res) => {
   res.status(404).json({msg: 'not found'})
