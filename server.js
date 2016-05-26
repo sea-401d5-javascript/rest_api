@@ -64,9 +64,16 @@ messiRouter.get('/', (req, res) => {
   });
 });
 
-messiRouter.post('/', (req, res) => {
+messiRouter.post('/', jsonParser, (req, res) => {
   let newMessi = new Messi(req.body);
   newMessi.save((err, data) => {
+    if(err) return res.json({message: err.message});
+    res.json(data);
+  });
+});
+
+messiRouter.put('/', jsonParser, (req, res) => {
+  Messi.findOneAndUpdate({_id: req.body._id}, req.body, (err, data) => {
     if(err) return res.json({message: err.message});
     res.json(data);
   });
