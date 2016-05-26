@@ -59,13 +59,17 @@ rooneyRouter.post('/', jsonParser,  (req, res) => {
 
 });
 
-rooneyRouter.put('/:id', (req, res) => {
-  console.log('rooneyRouter put hit');
-  let id = req.params.id;
-  var stream = fs.createWriteStream(dir + '/' + id + '.json');
-  req.pipe(stream);
-  res.send('Updated Rooney' + '\n');
-})
+rooneyRouter.put('/', jsonParser, (req, res) => {
+  Rooney.findOneAndUpdate({_id: req.body._id}, req.body, (err,data) => {
+    if(err) return res.json({message: err.message});
+    res.json(data);
+  });
+  // console.log('rooneyRouter put hit');
+  // let id = req.params.id;
+  // var stream = fs.createWriteStream(dir + '/' + id + '.json');
+  // req.pipe(stream);
+  // res.send('Updated Rooney' + '\n');
+});
 
 rooneyRouter.delete('/:id', (req, res) => {
   console.log('delete route hit');
