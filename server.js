@@ -5,7 +5,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const Rooney = require('./schema/rooney');
+const Messi = require('./schema/messi');
 const rooneyRouter = express.Router();
+const messiRouter = express.Router();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 
@@ -14,8 +16,10 @@ app.use(morgan('dev'));
 mongoose.connect('mongodb://localhost/dev_db');
 
 rooneyRouter.use(jsonParser);
+messiRouter.use(jsonParser);
 
 app.use('/rooney', rooneyRouter);
+app.use('/messi', messiRouter);
 
 rooneyRouter.get('/', (req, res) => {
   Rooney.find({}, (err,data) => {
