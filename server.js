@@ -64,6 +64,14 @@ messiRouter.get('/', (req, res) => {
   });
 });
 
+messiRouter.post('/', (req, res) => {
+  let newMessi = new Messi(req.body);
+  newMessi.save((err, data) => {
+    if(err) return res.json({message: err.message});
+    res.json(data);
+  });
+});
+
 app.get('/*', (req, res) => {
   res.status(404).json({msg: 'not found'});
 });
