@@ -55,6 +55,15 @@ rooneyRouter.delete('/:id', jsonParser, (req, res) => {
   });
 });
 
+messiRouter.get('/', (req, res) => {
+  Messi.find({}, (err, data) => {
+    if(err) return res.json({
+      message: err.message
+    });
+    res.json(data);
+  });
+});
+
 app.get('/*', (req, res) => {
   res.status(404).json({msg: 'not found'});
 });
