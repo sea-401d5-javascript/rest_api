@@ -1,0 +1,32 @@
+{
+  "name": "rest_api",
+  "version": "0.1.0",
+  "description": "simple one source api to be built upon with other components as class progresses.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schrode50/rest_api.git"
+  },
+  "author": "Stephen Schroeder",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schrode50/rest_api/issues"
+  },
+  "homepage": "https://github.com/schrode50/rest_api#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "body-parser": "^1.15.1",
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "eslint": "^2.10.2",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "mocha": "^2.5.1"
+  }
+}
