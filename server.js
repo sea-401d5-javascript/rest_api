@@ -79,8 +79,16 @@ messiRouter.put('/', jsonParser, (req, res) => {
   });
 });
 
+messiRouter.delete('/:id', jsonParser, (req, res) => {
+  let _id = req.params.id;
+  Messi.findOneAndRemove({_id}, null, (err,data) => {
+    if(err) return res.json({message: err.message});
+    res.send('deleted Messi with id ' + req.params.id);
+  });
+});
+
 app.get('/*', (req, res) => {
   res.status(404).json({msg: 'not found'});
 });
 
-app.listen(3000, () => console.log('up on 3000'));
+app.listen(6969, () => console.log('up on 6969 baby, server way up'));
