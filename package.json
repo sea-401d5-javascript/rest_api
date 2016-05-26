@@ -31,7 +31,9 @@
     "gulp-eslint": "^2.0.0",
     "gulp-mocha": "^2.2.0",
     "gulp-watch": "^4.3.5",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "mongoose": "^4.4.19",
+    "morgan": "^1.7.0"
   },
   "dependencies": {
     "body-parser": "^1.15.1",

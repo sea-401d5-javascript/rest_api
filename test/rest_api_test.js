@@ -15,7 +15,7 @@ let fileOne;
 
 
 
-require(__dirname + '/../lib/server');
+require(__dirname + '/../server');
 
 describe('rest api tests', () => {
   before('read files in data', (done) => {

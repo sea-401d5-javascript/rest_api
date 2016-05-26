@@ -7,6 +7,12 @@ const jsonParser = bodyParser.json();
 const rooneyRouter = express.Router();
 const fs = require('fs');
 const stream = require('stream');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+
+app.use(morgan('dev'));
+
+mongoose.connect('mongodb://localhost/dev_db');
 
 const dir =  __dirname + '/../data';
 if (!fs.existsSync(dir)) {
