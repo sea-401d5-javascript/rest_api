@@ -1,8 +1,8 @@
 'use strict';
 
 const express = require('express');
-const Marvel = require(__dirname + '/../models/marvel');
-const DC = require(__dirname + '/../models/dc');
+const Marvel = require(__dirname + '/../schema/marvel');
+const DC = require(__dirname + '/../schema/dc');
 const errorHandle = require(__dirname + '/../lib/err_handler');
 
 const duelRouter = module.exports = exports = express.Router();

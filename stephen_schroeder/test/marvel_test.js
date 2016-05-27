@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 process.env.MONGOLABL_URI = 'mongodb://localhost/marvel_app_test';
 const server = require(__dirname + '/../server');
-const Marvel = require(__dirname + '/../models/marvel');
+const Marvel = require(__dirname + '/../schema/marvel');
 
 describe('The Marvel API', () => {
   after((done) => {

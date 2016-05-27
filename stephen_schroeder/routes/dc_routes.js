@@ -2,7 +2,7 @@
 
 const express = require('express');
 const jsonParser = require('body-parser').json();
-const DC = require(__dirname + '/../models/dc');
+const DC = require(__dirname + '/../schema/dc');
 const errorHandle = require(__dirname + '/../lib/err_handler');
 
 var dcRouter = module.exports = exports = express.Router();
