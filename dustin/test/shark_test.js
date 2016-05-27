@@ -2,7 +2,7 @@
 
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
-const Shark = require('../schema/companies');
+const Shark = require('../schema/sharks');
 const mongoose = require('mongoose');
 chai.use(chaiHTTP);
 const expect = chai.expect;
@@ -32,9 +32,9 @@ describe('The /shark route', () => {
     });
   });
 
-  it('GET should return a list of companies', () => {
+  it('GET should return a list of sharks', () => {
     request('localhost:3000')
-      .get('/companies/')
+      .get('/sharks/')
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(Array.isArray(res.body)).to.eql(true);
@@ -43,7 +43,7 @@ describe('The /shark route', () => {
 
   it('POST should accept a post and create a new shark', (done) => {
     request('localhost:3000')
-      .post('/companies/')
+      .post('/sharks/')
       .send({
         name: 'posty'
       })
@@ -59,7 +59,7 @@ describe('The /shark route', () => {
   it('PUT should update a shark', (done) => {
     testShark.name = 'updated';
     request('localhost:3000')
-      .put('/companies/')
+      .put('/sharks/')
       .send(testShark)
       .end((err, res) => {
         expect(err).to.eql(null);
@@ -71,7 +71,7 @@ describe('The /shark route', () => {
 
   it('DELETE should remove a shark', (done) => {
     request('localhost:3000')
-      .delete('/companies/' + testShark._id)
+      .delete('/sharks/' + testShark._id)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
