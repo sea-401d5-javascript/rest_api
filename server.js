@@ -87,6 +87,29 @@ barcaRouter.delete('/:id', jsonParser, (req, res) => {
   });
 });
 
+manUnitedRouter.get('/mostGoals', (req, res, next) => {
+  // ManUnitedPlayer.find({}, (err, player)=>{
+  //   if (err) return next(err);
+  //   console.log(player);
+  //   var totalManUGoalsScored = player.reduce((acc, player) => {
+  //     return acc += player.goals;
+  //
+  //   }, 0);
+  //   console.log(totalManUGoalsScored);
+  //   res.json(totalManUGoalsScored);
+  // });
+  BarcaPlayer.find({}, (err, player)=>{
+    if (err) return next(err);
+    console.log(player);
+    var totalBarcaGoalsScored = player.reduce((acc, player) => {
+      return acc += player.goals;
+
+    }, 0);
+    console.log(totalBarcaGoalsScored);
+    res.json(totalBarcaGoalsScored);
+  });
+});
+
 app.get('/*', (req, res) => {
   res.status(404).json({msg: 'not found'});
 });
