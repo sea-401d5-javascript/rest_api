@@ -1,59 +1,21 @@
 'use strict';
 
 const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
-const firstRouter = express.Router();
+const app = module.exports = exports = express();
+const mongoose = require('mongoose');
+const errorHandle = require(__dirname + '/lib/err_handler');
 
-app.use(jsonParser);
+const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/marvel_app_dev';
 
-firstRouter.get('/', (req, res) => {
-  res.send('GAAAW GAAAW')
-})
+mongoose.connect(dbPort);
 
-firstRouter.delete('/:id', (req, res) => {
-  let message = `Poor penguin #${req.params.id} brutally murderes.`;
-  res.send(message);
-})
+const marvelRouter = require(__dirname + '/routes/marvel_routes');
+const dcRouter = require(__dirname + '/routes/dc_routes');
+const duelRouter = require(__dirname + '/routes/duel_routes');
 
-app.get('/', (req, res) => {
-  res.send('It got to me first');
-});
+app.use('/api', marvelRouter, dcRouter);
 
-app.get('/', (req, res) => {
-  console.log('route hit!');
-  res.send('HELLO');
-});
+app.use(errorHandle);
 
-app.use('/penguins', firstRouter);
-
-app.get('/:id', (req, res) => {
-  let id = req.params.id;
-  console.log('hellow from the id get route');
-  res.json({message: id.toUpperCase()});
-});
-
-app.post('/', (req, res) => {
-  console.log('post route hit!');
-  console.log('Request Body:', req.body);
-  res.json({ message: 'Hello from post route'});
-});
-
-app.put('/', (req, res) => {
-  console.log('put route hit!');
-  res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write(JSON.stringify({message: 'Hellow from put route'}));
-});
-
-app.delete('/', (req, res) => {
-  console.log('delete route hit!');
-  res.send('Hello from delete route');
-});
-
-app.get('/*,', (req, res) => {
-  res.status(404).json({msg: 'not found'});
-});
-
-
-app.listen(3000, () => console.log('up on 3000'));
+var PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('server up on port: ' + PORT));
