@@ -25,10 +25,12 @@ router.post('/', bodyParser,  (req, res) => {
   });
 });
 
-router.put('/', bodyParser, (req, res) => {
-  ManUnitedPlayer.findOneAndUpdate({_id: req.body._id}, req.body, (err,data) => {
-    if(err) return res.json({message: err.message});
-    res.json(data);
+router.put('/', bodyParser, (req, res, next) => {
+  let _id = req.body._id;
+  ManUnitedPlayer.findOneAndUpdate({_id}, req.body, (err,data) => {
+    if(err) return next(err);
+    let message = 'successfully updated';
+    res.json({message});
   });
 });
 

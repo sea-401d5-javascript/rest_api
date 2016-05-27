@@ -38,8 +38,32 @@ describe('Router tests', () => {
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
-        expect(res.body.name).to.eql('test player');
+        expect(res.body.name).to. eql('test player');
         done();
+      });
+    });
+
+    describe('Man United test that need data', (done) => {
+      let testManUPlayer;
+      beforeEach((done) => {
+        let newManUPlayer = new ManUnitedPlayer({name: 'test'})
+        newManUPlayer.save((err, player) => {
+          testManUPlayer = player;
+          done();
+        });
+      });
+
+      it('Should update a Man U player', (done) => {
+        testManUPlayer.name = 'updated';
+        request('localhost:6969')
+        .put('/manUnited')
+        .send(testManUPlayer)
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.eql('successfully updated');
+          done();
+        });
       });
     });
   });
