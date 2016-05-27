@@ -3,7 +3,15 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-const playerRouter = express.Router();
+// const playerRouter = express.Router();
+const mongoose = require('mongoose');
+const errorHandler = require('./lib/error-handler');
+
+const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
+
+mongoose.connect('mongodb://localhost/dev_db');
+
+const playerRouter = require('./routes/player-routes');
 
 app.use(jsonParser);
 
@@ -22,6 +30,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/nbaPlayers', playerRouter);
+app.use('/nflPlayers', playerRouter);
 
 app.get('/:id', (req, res) => {
   let id = req.params.id;
@@ -44,6 +53,7 @@ app.put('/', (req, res) => {
 
 app.delete('/', (req, res) => {
   console.log('delete route hit');
+  res.end();
 });
 
 app.get('/*', (req, res) => {
