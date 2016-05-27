@@ -31,5 +31,16 @@ describe('Router tests', () => {
         done();
       });
     });
+    it('Should create a Man United player', (done) => {
+      request('localhost:6969')
+      .post('/manUnited')
+      .send({name: 'test player'})
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.name).to.eql('test player');
+        done();
+      });
+    });
   });
 });
