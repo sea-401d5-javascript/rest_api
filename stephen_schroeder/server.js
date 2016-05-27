@@ -13,9 +13,13 @@ const marvelRouter = require(__dirname + '/routes/marvel_routes');
 const dcRouter = require(__dirname + '/routes/dc_routes');
 const duelRouter = require(__dirname + '/routes/duel_routes');
 
-app.use('/api', marvelRouter, dcRouter);
+app.use('/api', marvelRouter, dcRouter, duelRouter);
 
 app.use(errorHandle);
+
+app.use((err, res) => {
+  res.status(404).json({ message: err.message });
+});
 
 var PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('server up on port: ' + PORT));
