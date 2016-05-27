@@ -1,22 +1,28 @@
+'use strict';
+
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 
+var files = ['gulpfile.js', './lib/*.js', './schema/*.js', './routes/*.js', './test/*.js',
+'!node_modules/**', '!*.json'];
+
+var testFiles = ['./test/*test.js'];
 
 gulp.task('lint', () => {
-  return gulp.src(['./lib/server', './test/test', './.eslintrc', '!node_modules'])
+  return gulp.src(files)
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
 });
 
 gulp.task('test', () => {
-  return gulp.src(['test/*'], { read: false })
+  return gulp.src(testFiles, { read: false })
   .pipe(mocha({ reporter: 'nyan' }));
 });
 
 gulp.task('watch', () => {
-  gulp.watch('./lib/server', ['lint', 'test']);
+  gulp.watch(files, ['lint', 'test']);
 });
 
 gulp.task('default', ['watch', 'lint', 'test'], () => {
