@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const Weasel = require(__dirname + '/../schema/weasel');
+const Weasel = require(__dirname + '/../../schema/weasel');
 const bodyParser = require('body-parser').json();
 
 const weaselRouter = module.exports = exports = express.Router();

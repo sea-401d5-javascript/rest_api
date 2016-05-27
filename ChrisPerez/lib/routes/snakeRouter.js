@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const Snake = require(__dirname + '/../schema/snake');
+const Snake = require(__dirname + '/../../schema/snake');
 const bodyParser = require('body-parser').json();
 
 const snakeRouter = module.exports = exports = express.Router();

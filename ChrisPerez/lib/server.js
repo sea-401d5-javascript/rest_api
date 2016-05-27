@@ -2,8 +2,8 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-const snakeRouter = require(__dirname + '/snakeRouter.js');
-const weaselRouter = require(__dirname + '/weaselRouter.js');
+const snakeRouter = require(__dirname + '/routes/snakeRouter.js');
+const weaselRouter = require(__dirname + '/routes/weaselRouter.js');
 const app = express();
 
 mongoose.connect('mongodb://localhost/dev_db');
