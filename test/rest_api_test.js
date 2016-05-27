@@ -12,3 +12,24 @@ const request = chai.request;
 const dbPort = process.env.MONGOLAB_URI;
 process.env.MONGOLAB_URI = 'mongodb://localhost/test_db';
 require('../server');
+
+describe('Router tests', () => {
+  after((done) => {
+    process.env.MONGOLAB_URI = dbPort;
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+  describe('Man United Tests', () => {
+    it('should get a list of Man United players', (done) => {
+      request('localhost:6969')
+      .get('/manUnited')
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(Array.isArray(res.body)).to.eql(true);
+        done();
+      });
+    });
+  });
+});
