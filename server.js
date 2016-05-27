@@ -2,21 +2,22 @@
 
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
-const ManUnitedPlayer = require('./schema/man_United_Player');
-const BarcaPlayer = require('./schema/barca_Player');
-const manUnitedRouter = express.Router();
-const barcaRouter = express.Router();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const errorHandler =require('./lib/error_handling');
+// const bodyParser = require('body-parser').json();
+// const ManUnitedPlayer = require('./schema/man_United_Player');
+// const BarcaPlayer = require('./schema/barca_Player');
+// const manUnitedRouter = express.Router();
+// const barcaRouter = express.Router();
+
 
 app.use(morgan('dev'));
 
 mongoose.connect('mongodb://localhost/dev_db');
 
-manUnitedRouter.use(jsonParser);
-barcaRouter.use(jsonParser);
+manUnitedRouter.use(bodyParser);
+barcaRouter.use(bodyParser);
 
 app.use('/manUnited', manUnitedRouter);
 app.use('/barca', barcaRouter);
@@ -30,7 +31,7 @@ manUnitedRouter.get('/', (req, res) => {
   });
 });
 
-manUnitedRouter.post('/', jsonParser,  (req, res) => {
+manUnitedRouter.post('/', bodyParser,  (req, res) => {
   let newManUnitedPlayer = new ManUnitedPlayer(req.body);
   newManUnitedPlayer.save((err, data) => {
     if(err) return res.json({
@@ -40,14 +41,14 @@ manUnitedRouter.post('/', jsonParser,  (req, res) => {
   });
 });
 
-manUnitedRouter.put('/', jsonParser, (req, res) => {
+manUnitedRouter.put('/', bodyParser, (req, res) => {
   ManUnitedPlayer.findOneAndUpdate({_id: req.body._id}, req.body, (err,data) => {
     if(err) return res.json({message: err.message});
     res.json(data);
   });
 });
 
-manUnitedRouter.delete('/:id', jsonParser, (req, res) => {
+manUnitedRouter.delete('/:id', bodyParser, (req, res) => {
   let _id = req.params.id;
   ManUnitedPlayer.findOneAndRemove({_id}, null, (err,data) => {
     if(err) return res.json({message: err.message});
@@ -64,7 +65,7 @@ barcaRouter.get('/', (req, res) => {
   });
 });
 
-barcaRouter.post('/', jsonParser, (req, res) => {
+barcaRouter.post('/', bodyParser, (req, res) => {
   let newBarcaPlayer = new BarcaPlayer(req.body);
   newBarcaPlayer.save((err, data) => {
     if(err) return res.json({message: err.message});
@@ -72,14 +73,14 @@ barcaRouter.post('/', jsonParser, (req, res) => {
   });
 });
 
-barcaRouter.put('/', jsonParser, (req, res) => {
+barcaRouter.put('/', bodyParser, (req, res) => {
   BarcaPlayer.findOneAndUpdate({_id: req.body._id}, req.body, (err, data) => {
     if(err) return res.json({message: err.message});
     res.json(data);
   });
 });
 
-barcaRouter.delete('/:id', jsonParser, (req, res) => {
+barcaRouter.delete('/:id', bodyParser, (req, res) => {
   let _id = req.params.id;
   BarcaPlayer.findOneAndRemove({_id}, null, (err,data) => {
     if(err) return res.json({message: err.message});
