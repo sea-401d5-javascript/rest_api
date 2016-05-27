@@ -1,4 +1,3 @@
-module.exports = exports = function(err, res) {
-  console.log(err);
-  res.status(500).json({ msg: 'Server error' });
+module.exports = exports = function(err, req, res, next) {
+  res.status(500).json({ msg: err.message });
 };

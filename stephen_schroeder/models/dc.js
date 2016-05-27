@@ -2,12 +2,11 @@
 
 const mongoose = require('mongoose');
 
-var dcSchema = new mongoose.Schema({
+var DC = new mongoose.Schema({
   name: String,
   lightsaberColor: String,
   world: String,
-  master: Boolean,
   powers: Number
 });
 
-module.exports = exports = mongoose.model('DC', dcSchema);
+module.exports = exports = mongoose.model('dc', DC);
