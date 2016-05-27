@@ -1,5 +1,5 @@
 {
-  "name": "Shark Tank API",
+  "name": "SharkTankAPI",
   "version": "0.0.1",
   "description": "",
   "main": "server.js",
@@ -19,11 +19,13 @@
     "gulp": "^3.9.1",
     "gulp-eslint": "^2.0.0",
     "gulp-mocha": "^2.2.0",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "morgan": "^1.7.0"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
-    "json-fs-store": "^1.0.0"
+    "json-fs-store": "^1.0.0",
+    "mongoose": "^4.4.19"
   }
 }
