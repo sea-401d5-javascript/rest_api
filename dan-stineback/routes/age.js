@@ -8,8 +8,9 @@ const jsonParser = bodyParser;
 const ageRouter = module.exports = exports = express.Router();
 
 ageRouter.get('/', (req, res, next) =>{
+  let age;
   Cat.find({}, (err, cat)=>{
     if(err) return next(err);
-    res.json(cat);
+    age = (dog.age.length)
   });
 });
