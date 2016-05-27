@@ -65,6 +65,17 @@ describe('Router tests', () => {
           done();
         });
       });
+
+      it('Should delete a Man U player', (done) => {
+        request('localhost:6969')
+        .delete('/manUnited/' + testManUPlayer.id)
+        .end((err,res) => {
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.eql('successfully deleted');
+          done();
+        });
+      });
     });
   });
 });
