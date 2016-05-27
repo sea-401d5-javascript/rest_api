@@ -88,26 +88,33 @@ barcaRouter.delete('/:id', jsonParser, (req, res) => {
 });
 
 manUnitedRouter.get('/mostGoals', (req, res, next) => {
-  // ManUnitedPlayer.find({}, (err, player)=>{
-  //   if (err) return next(err);
-  //   console.log(player);
-  //   var totalManUGoalsScored = player.reduce((acc, player) => {
-  //     return acc += player.goals;
-  //
-  //   }, 0);
-  //   console.log(totalManUGoalsScored);
-  //   res.json(totalManUGoalsScored);
-  // });
+    let teamGoalArray = [];
+
+  ManUnitedPlayer.find({}, (err, player)=>{
+    if (err) return next(err);
+    let totalManUGoalsScored = player.reduce((acc, player) => {
+      return acc += player.goals;
+    }, 0);
+    teamGoalArray.push(totalManUGoalsScored);
+    console.log(teamGoalArray);
+  });
   BarcaPlayer.find({}, (err, player)=>{
     if (err) return next(err);
-    console.log(player);
-    var totalBarcaGoalsScored = player.reduce((acc, player) => {
+    let totalBarcaGoalsScored = player.reduce((acc, player) => {
       return acc += player.goals;
-
     }, 0);
     console.log(totalBarcaGoalsScored);
-    res.json(totalBarcaGoalsScored);
+    teamGoalArray.push(totalBarcaGoalsScored);
+
+    if (teamGoalArray[1] > teamGoalArray[0]) {
+      res.json("Barcalona players scored " + teamGoalArray[1] + " goals, which is more than Man United Players.")
+    } else if (teamGoalArray[1] < teamGoalArray[0]) {
+      res.json("Man United players scored " + teamGoalArray[0] + " goals, which is more than Barcalona Players.")
+    } else {
+      res.json("They scored the same amount.")
+    }
   });
+
 });
 
 app.get('/*', (req, res) => {
