@@ -7,4 +7,4 @@ const Cat = new mongoose.Schema({
   size: String,
 });
 
-module.exports = mongoose.model('Cat', Cat);
+module.exports = mongoose.model('cat', Cat);

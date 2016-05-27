@@ -7,4 +7,4 @@ const Dog = new mongoose.Schema({
   size: String,
 });
 
-module.exports = mongoose.model('Dog', Dog);
+module.exports = mongoose.model('dog', Dog);
