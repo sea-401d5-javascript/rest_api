@@ -2,7 +2,7 @@
 
 const express = require('express');
 const jsonParser = require('body-parser').json();
-const Marvel = require(__dirname + '/../models/marvel');
+const Marvel = require(__dirname + '/../schema/marvel');
 const errorHandle = require(__dirname + '/../lib/err_handler.js');
 
 var marvelRouter = module.exports = exports = express.Router();

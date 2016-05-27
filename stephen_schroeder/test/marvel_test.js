@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 process.env.MONGOLABL_URI = 'mongodb://localhost/marvel_app_test';
 const server = require(__dirname + '/../server');
-const Marvel = require(__dirname + '/../models/marvel');
+const Marvel = require(__dirname + '/../schema/marvel');
 
 describe('The Marvel API', () => {
   after((done) => {
@@ -31,11 +31,11 @@ describe('The Marvel API', () => {
   it('should create a marvel character with a POST', (done) => {
     request('localhost:3000')
     .post('/api/marvel')
-    .send({ name: 'test-jin' })
+    .send({ name: 'Thor' })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
-      expect(res.body.name).to.eql('test-jin');
+      expect(res.body.name).to.eql('Thor');
       expect(res.body).to.have.property('_id');
       done();
     });

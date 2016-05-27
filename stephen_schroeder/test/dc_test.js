@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 process.env.MONGOLABL_URI = 'mongodb://localhost/dc_app_test';
 const server = require(__dirname + '/../server');
-const DC = require(__dirname + '/../models/dc');
+const DC = require(__dirname + '/../schema/dc');
 
 describe('The DC API', () => {
   after((done) => {
@@ -31,11 +31,11 @@ describe('The DC API', () => {
   it('should create a sith with a POST', (done) => {
     request('localhost:3000')
     .post('/api/dc')
-    .send({ name: 'test DC' })
+    .send({ name: 'Superman' })
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
-      expect(res.body.name).to.eql('test DC');
+      expect(res.body.name).to.eql('Superman');
       expect(res.body).to.have.property('_id');
       done();
     });
