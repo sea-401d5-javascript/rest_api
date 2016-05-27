@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const Cat = new mongoose.Schema({
   name: String,
-  size: String,
+  age: Number,
 });
 
 module.exports = mongoose.model('cat', Cat);
