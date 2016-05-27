@@ -34,7 +34,7 @@ router.put('/', bodyParser, (req, res, next) => {
   });
 });
 
-router.delete('/:id', bodyParser, (req, res) => {
+router.delete('/:id', bodyParser, (req, res, next) => {
   let _id = req.params.id;
   ManUnitedPlayer.findOneAndRemove({_id}, null, (err,data) => {
     if(err) return next(err);

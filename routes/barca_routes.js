@@ -23,17 +23,19 @@ router.post('/', bodyParser, (req, res) => {
   });
 });
 
-router.put('/', bodyParser, (req, res) => {
+router.put('/', bodyParser, (req, res, next) => {
   BarcaPlayer.findOneAndUpdate({_id: req.body._id}, req.body, (err, data) => {
-    if(err) return res.json({message: err.message});
-    res.json(data);
+    if(err) return next(err);
+    let message = 'successfully updated';
+    res.json({message});
   });
 });
 
-router.delete('/:id', bodyParser, (req, res) => {
+router.delete('/:id', bodyParser, (req, res, next) => {
   let _id = req.params.id;
   BarcaPlayer.findOneAndRemove({_id}, null, (err,data) => {
-    if(err) return res.json({message: err.message});
-    res.send('deleted Barca Player with id ' + req.params.id);
+    if(err) return next(err);
+    let message = 'successfully deleted';
+    res.json({message});
   });
 });

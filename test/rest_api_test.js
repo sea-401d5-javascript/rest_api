@@ -43,7 +43,7 @@ describe('Router tests', () => {
       });
     });
 
-    describe('Man United test that need data', (done) => {
+    describe('Man United tests that need data', (done) => {
       let testManUPlayer;
       beforeEach((done) => {
         let newManUPlayer = new ManUnitedPlayer({name: 'test'})
@@ -69,6 +69,65 @@ describe('Router tests', () => {
       it('Should delete a Man U player', (done) => {
         request('localhost:6969')
         .delete('/manUnited/' + testManUPlayer.id)
+        .end((err,res) => {
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.eql('successfully deleted');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('Barca Tests', () => {
+    it('should get a list of Barca players', (done) => {
+      request('localhost:6969')
+      .get('/barca')
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(Array.isArray(res.body)).to.eql(true);
+        done();
+      });
+    });
+    it('Should create a Barca player', (done) => {
+      request('localhost:6969')
+      .post('/barca')
+      .send({name: 'test player'})
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.name).to. eql('test player');
+        done();
+      });
+    });
+
+    describe('Barca tests that need data', (done) => {
+      let testBarcaPlayer;
+      beforeEach((done) => {
+        let newBarcaPlayer = new BarcaPlayer({name: 'test'})
+        newBarcaPlayer.save((err, player) => {
+          testBarcaPlayer = player;
+          done();
+        });
+      });
+
+      it('Should update a Barca player', (done) => {
+        testBarcaPlayer.name = 'updated';
+        request('localhost:6969')
+        .put('/barca')
+        .send(testBarcaPlayer)
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.eql('successfully updated');
+          done();
+        });
+      });
+
+      it('Should delete a Barca player', (done) => {
+        request('localhost:6969')
+        .delete('/barca/' + testBarcaPlayer.id)
         .end((err,res) => {
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
