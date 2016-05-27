@@ -11,9 +11,11 @@ gulp.task('default',['lint','Mochai','watch'], () => {
 
 gulp.task('lint', () => {
   gulp.src([
-    './server.js',
+    './*.js',
     './gulpfile.js',
-    './test/apitest.js'
+    './test/*.js',
+    './routes/*.js',
+    './schema/*.js'
   ])
   .pipe(eslint())
   .pipe(eslint.format())
@@ -25,7 +27,7 @@ gulp.task('lint', () => {
 });
 
 gulp.task('Mochai', () => {
-  gulp.src('./test/http_test.js')
+  gulp.src('./test/*.js')
   .pipe(mocha());
 });
 
