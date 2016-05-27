@@ -139,8 +139,12 @@ describe('Router tests', () => {
   });
 
   describe('Compare tests', () => {
+    let testSaurez
     before('Need to make some players to compare', (done) => {
-
+      let newSuarez = new BarcaPlayer({name: 'Test '})
+      newBarcaPlayer.save((err, player) => {
+        testBarcaPlayer = player;
+        done();
     })
     it('Should compare total goals of each team', (done) => {
       request('localhost:6969')
