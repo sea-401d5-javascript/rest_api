@@ -136,17 +136,20 @@ describe('Router tests', () => {
         });
       });
     });
+  });
 
-    describe('Compare tests', () => {
-      it('Should compare total goals of each team', (done) => {
-        request('localhost:6969')
-        .get('/compare/mostGoals')
-        .end((err,res) => {
-          expect(err).to.eql(null);
-          expect(res).to.have.status(200);
-          console.log(res.body);
-          done();
-        });
+  describe('Compare tests', () => {
+    before('Need to make some players to compare', (done) => {
+
+    })
+    it('Should compare total goals of each team', (done) => {
+      request('localhost:6969')
+      .get('/compare/mostGoals')
+      .end((err,res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body).to.eql("They scored the same amount.")
+        done();
       });
     });
   });
