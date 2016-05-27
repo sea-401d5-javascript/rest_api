@@ -1,77 +1,92 @@
 'use strict';
 
-const fs = require('fs');
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
-const expect = chai.expect;
+const mongoose = require('mongoose');
+const IceCream = require('../schema/icecream');
 chai.use(chaiHTTP);
+
+const expect = chai.expect;
 const request = chai.request;
+const dbPort = process.env.MONGOLAB_URI;
 
-const server = require(__dirname + '/../lib/server');
-
+process.env.MONGOLAB_URI = 'mongodb://localhost/test_db';
 require('../index');
 
-describe('Testing CRUD routes', () => {
-  it('should respond with 404 to bad path', () => {
+describe('Testing CRUD routes IceCream', () => {
+  after((done) => {
+    process.env.MONGOLAB_URI = dbPort;
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+
+  it('should respond with 404 to bad path', (done) => {
     request('localhost:3000')
     .get('/badpath')
     .end((err, res) => {
       expect(err).to.not.eql(null);
       expect(res).to.have.status(404);
       expect(res.text).to.eql('{"message":"not found"}');
+      done();
     });
   });
-  it('should return a get message', (done) => {
-    request('localhost:3000/articles')
-    .get('/more')
+  it('should get a list of ice cream', (done) => {
+    request('localhost:3000')
+    .get('/icecream/')
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
-      expect(res.text).to.eql('{"message":"MORE"}');
+      expect(Array.isArray(res.body)).to.eql(true);
       done();
     });
   });
-  it('should return a post message', (done) => {
-    request('localhost:3000/articles')
-    .post('/')
-    .send({})
+  it('should create ice cream', (done) => {
+    request('localhost:3000')
+    .post('/icecream/')
+    .send({flavor: 'chocolate', scoops: 1, vessel: 'cup'})
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
-      expect(res.text).to.eql('{"message":"post success"}');
+      expect(res.body.flavor).to.eql('chocolate');
+      expect(res.body.vessel).to.eql('cup');
       done();
     });
   });
-  it('should return a put message', (done) => {
-    request('localhost:3000/articles')
-    .put('/')
-    .send({})
-    .end((err, res) => {
-      expect(err).to.eql(null);
-      expect(res).to.have.status(200)
-      expect(res.text).to.eql('{"message":"put success"}');
-      done();
+
+  describe('tests that need ice cream already', () => {
+    let testIceCream;
+    beforeEach((done) => {
+      let newIceCream = new IceCream({flavor: 'vanilla', scoops: 2, vessel: 'waffle cone'});
+      newIceCream.save((err, icecream) => {
+        testIceCream = icecream;
+        done();
+      });
     });
-  });
-  it('should return a patch message', (done) => {
-    request('localhost:3000/articles')
-    .patch('/')
-    .send({})
-    .end((err, res) => {
-      expect(err).to.eql(null);
-      expect(res).to.have.status(200)
-      expect(res.text).to.eql('{"message":"patch success"}');
-      done();
+
+    it('should update a message', (done) => {
+      testIceCream.flavor = 'coffee';
+      request('localhost:3000')
+      .put('/icecream/' + testIceCream._id)
+      .send({testIceCream})
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.eql('successfully updated');
+        expect(res.body.flavor).to.eql('coffee');
+        done();
+      });
     });
-  });
-  it('should return a delete message', (done) => {
-    request('localhost:3000/articles')
-    .delete('/')
-    .end((err, res) => {
-      expect(err).to.eql(null);
-      expect(res).to.have.status(200)
-      expect(res.text).to.eql('{"message":"delete success"}');
-      done();
+
+    it('should get rid of perfectly good ice cream', (done) => {
+      request('localhost:3000')
+      .delete('/icecream/' + testIceCream._id)
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.eql('successfully deleted');
+        done();
+      });
     });
   });
 });

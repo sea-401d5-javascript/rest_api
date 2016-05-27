@@ -1,1 +1,1 @@
-module.exports = require(__dirname + '/lib/server.js');
+module.exports = require(__dirname + '/server.js');
