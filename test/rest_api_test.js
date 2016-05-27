@@ -14,6 +14,7 @@ process.env.MONGOLAB_URI = 'mongodb://localhost/test_db';
 require('../server');
 
 describe('Router tests', () => {
+
   after((done) => {
     process.env.MONGOLAB_URI = dbPort;
     mongoose.connection.db.dropDatabase(() => {
@@ -34,7 +35,7 @@ describe('Router tests', () => {
     it('Should create a Man United player', (done) => {
       request('localhost:6969')
       .post('/manUnited')
-      .send({name: 'test player'})
+      .send({name: 'test player', goals: 40})
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
@@ -46,7 +47,7 @@ describe('Router tests', () => {
     describe('Man United tests that need data', (done) => {
       let testManUPlayer;
       beforeEach((done) => {
-        let newManUPlayer = new ManUnitedPlayer({name: 'test'})
+        let newManUPlayer = new ManUnitedPlayer({name: 'test', goals:20})
         newManUPlayer.save((err, player) => {
           testManUPlayer = player;
           done();
@@ -93,7 +94,7 @@ describe('Router tests', () => {
     it('Should create a Barca player', (done) => {
       request('localhost:6969')
       .post('/barca')
-      .send({name: 'test player'})
+      .send({name: 'test player', goals: 100})
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
@@ -105,7 +106,7 @@ describe('Router tests', () => {
     describe('Barca tests that need data', (done) => {
       let testBarcaPlayer;
       beforeEach((done) => {
-        let newBarcaPlayer = new BarcaPlayer({name: 'test'})
+        let newBarcaPlayer = new BarcaPlayer({name: 'test', goals: 100})
         newBarcaPlayer.save((err, player) => {
           testBarcaPlayer = player;
           done();
@@ -139,20 +140,14 @@ describe('Router tests', () => {
   });
 
   describe('Compare tests', () => {
-    let testSaurez
-    before('Need to make some players to compare', (done) => {
-      let newSuarez = new BarcaPlayer({name: 'Test '})
-      newBarcaPlayer.save((err, player) => {
-        testBarcaPlayer = player;
-        done();
-    })
+
     it('Should compare total goals of each team', (done) => {
       request('localhost:6969')
       .get('/compare/mostGoals')
       .end((err,res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
-        expect(res.body).to.eql("They scored the same amount.")
+        expect(res.body).to.eql('Barcalona players scored 200 goals, which is more than Man United Players.')
         done();
       });
     });

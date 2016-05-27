@@ -15,6 +15,7 @@ router.get('/mostGoals', (req, res, next) => {
     let totalManUGoalsScored = player.reduce((acc, player) => {
       return acc += player.goals;
     }, 0);
+    console.log(totalManUGoalsScored);
     teamGoalArray.push(totalManUGoalsScored);
   });
   BarcaPlayer.find({}, (err, player)=>{
