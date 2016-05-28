@@ -35,3 +35,9 @@ router.get('/mostGoals', (req, res, next) => {
   });
 
 });
+
+//
+// scoreA = 10
+// scoreB = 15
+//
+// message = `${scoreA > scoreB ? 'Team A' : 'Team B'} is the winner!`
