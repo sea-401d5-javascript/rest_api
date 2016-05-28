@@ -22,8 +22,8 @@ iceCreamRouter.post('/', jsonParser, (req, res) => {
   });
 });
 
-iceCreamRouter.put('/:id', jsonParser, (req, res, next) => {
-  let _id = req.params.id;
+iceCreamRouter.put('/', jsonParser, (req, res, next) => {
+  let _id = req.body._id;
   console.log('looking for id and req.body', _id, req.body)
   IceCream.findOneAndUpdate({_id}, req.body, (err, icecream) => {
     if(err) return next(err);
