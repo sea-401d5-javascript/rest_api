@@ -1,13 +1,14 @@
 'use strict';
 
 const express = require('express');
-const Weasel = require(__dirname + '/../schema/weasel');
+const Weasel = require(__dirname + '/../../schema/weasel');
 const bodyParser = require('body-parser').json();
 
 const weaselRouter = module.exports = exports = express.Router();
 
 weaselRouter.get('/', (req, res)=>{
   Weasel.find({}, (err, weaselData)=>{
+    if (err) return res.json({message: 'Error getting'});
     res.json(weaselData);
   });
 });
@@ -19,8 +20,8 @@ weaselRouter.post('/', bodyParser, (req, res)=>{
     strength: req.body.strength
   });
   aWeasel.save((err, weaselData)=>{
+    if (err) return res.json({message: 'Error posting'});
     res.json(weaselData);
-    console.log('Weasel post')
   });
 });
 
