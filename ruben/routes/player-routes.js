@@ -39,10 +39,15 @@ router.delete('/:id', (req, res, next) => {
   });
 });
 
-router.average('/average-height', (req, res, next) => {
-  NbaPlayer.find({}, (err, nbaPlayers) => {
-      if (err) return next(err);
-      res.json(nbaPlayers);
+router.get('/average-height', (req, res, next) => {
+  NbaPlayer.aggregate({
+    '$group': {
+      '_id': null,
+      'avgHeight': {'$avg': '$height'}
+    }
+  }, (err, nbaPlayers) => {
+    if (err) return next (err);
+    res.json(nbaPlayers[0]);
   });
 });
 
@@ -79,9 +84,14 @@ router.delete('/:id', (req, res, next) => {
   });
 });
 
-router.average('/average-weight', (req, res, next) => {
-  NflPlayer.find({}, (err, nflPlayers) => {
-      if (err) return next(err);
-      res.json(nflPlayers);
+router.get('/average-weight', (req, res, next) => {
+  NflPlayer.aggregate({
+    '$group': {
+      '_id': null,
+      'avgWeight': {'$avg': '$weight'}
+    }
+  }, (err, nflPlayers) => {
+    if (err) return next (err);
+    res.json(nflPlayers[0]);
   });
 });

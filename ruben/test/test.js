@@ -44,6 +44,15 @@ describe('NBA tests', () => {
       done();
     });
   });
+  it('should get the average height of all NBA players', (done) => {
+    request('localhost:3000')
+    .get('/nbaPlayers/')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect('_id').to.eql(null);
+      expect('avgHeight').to.eql({'$avg':'$height'});
+    });
+  });
 
 describe('tests that need players', (done) => {
   let testPlayer;
@@ -119,6 +128,15 @@ describe('NFL tests', () => {
       expect(res.body.championships).to.eql(0);
       expect(res.body.active).to.eql(false);
       done();
+    });
+  });
+  it('should get the average weight of all NFL players', (done) => {
+    request('localhost:3000')
+    .get('/nflPlayers/')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect('_id').to.eql(null);
+      expect('avgWeight').to.eql({'$avg':'$weight'});
     });
   });
 
