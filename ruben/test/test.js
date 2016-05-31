@@ -33,7 +33,7 @@ describe('NBA tests', () => {
   it('should create an NBA player', (done) => {
     request('localhost:3000')
     .post('/nbaPlayers/')
-    .send({name: 'post player', active: false})
+    .send({name: 'post player', active: false, height: 76, championships: 0})
     .end((err, res) => {
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
@@ -44,60 +44,50 @@ describe('NBA tests', () => {
       done();
     });
   });
-  it('should get the average height of all NBA players', (done) => {
-    request('localhost:3000')
-    .get('/nbaPlayers/')
-    .end((err, res) => {
-      expect(err).to.eql(null);
-      expect('_id').to.eql(null);
-      expect('avgHeight').to.eql({'$avg':'$height'});
-    });
-  });
-
-describe('tests that need players', (done) => {
-  let testPlayer;
-  beforeEach((done) => {
-    let newPlayer = new NbaPlayer({name: 'test', active: true});
-    newPlayer.save((err, nbaPlayers) => {
-      testPlayer = nbaPlayers;
-      done();
-    });
-  });
-    it('should update a player', (done) => {
-      testPlayer.name = 'updated';
-      request('localhost:3000')
-      .put('/nbaPlayers/')
-      .send(testPlayer)
-      .end((err, res) => {
-        console.log('res', res.body);
-        expect(err).to.eql(null);
-        expect(res).to.have.status(200);
-        expect(res.body.message).to.eql('successfully updated')
+  describe('tests that need players', (done) => {
+    let testPlayer;
+    beforeEach((done) => {
+      let newPlayer = new NbaPlayer({name: 'test', active: true, height: 76});
+      newPlayer.save((err, nbaPlayers) => {
+        testPlayer = nbaPlayers;
         done();
       });
     });
-    it('should delete player', (done) => {
-      request('localhost:3000')
-      .delete('/nbaPlayers/' + testPlayer._id)
-      .end((err, res) => {
-        expect(err).to.eql(null);
-        expect(res).to.have.status(200);
-        expect(res.body.message).to.eql('successfully deleted');
-        done();
+      it('should update a player', (done) => {
+        testPlayer.name = 'updated';
+        request('localhost:3000')
+        .put('/nbaPlayers/')
+        .send(testPlayer)
+        .end((err, res) => {
+          console.log('res', res.body);
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.eql('successfully updated')
+          done();
+        });
       });
-    });
-    it('should find the average height of all players', (done) => {
-      request('localhost:3000')
-      .average('/nbaPlayers/')
-      .end((err, res) => {
-        expect(err).to.eql(null);
-        expect(res).to.have.status(200);
-        expect(Array.isArray(res.body)).to.eql(true);
-        done();
+      it('should delete player', (done) => {
+        request('localhost:3000')
+        .delete('/nbaPlayers/' + testPlayer._id)
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.eql('successfully deleted');
+          done();
+        });
+      });
+      it('should get the average height of all NBA players', (done) => {
+        request('localhost:3000')
+        .get('/nbaPlayers/average-height/')
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res.body._id).to.eql(null);
+          expect(typeof res.body.avgHeight).to.eql('number');
+          done();
+        });
       });
     });
   });
-});
 
 describe('NFL tests', () => {
   after((done) => {
@@ -130,57 +120,47 @@ describe('NFL tests', () => {
       done();
     });
   });
-  it('should get the average weight of all NFL players', (done) => {
-    request('localhost:3000')
-    .get('/nflPlayers/')
-    .end((err, res) => {
-      expect(err).to.eql(null);
-      expect('_id').to.eql(null);
-      expect('avgWeight').to.eql({'$avg':'$weight'});
-    });
-  });
-
-describe('tests that need players', (done) => {
-  let testPlayer;
-  beforeEach((done) => {
-    let newPlayer = new NflPlayer({name: 'test', active: true});
-    newPlayer.save((err, nflPlayers) => {
-      testPlayer = nflPlayers;
-      done();
-    });
-  });
-    it('should update a player', (done) => {
-      testPlayer.name = 'updated';
-      request('localhost:3000')
-      .put('/nflPlayers/')
-      .send(testPlayer)
-      .end((err, res) => {
-        console.log('res', res.body);
-        expect(err).to.eql(null);
-        expect(res).to.have.status(200);
-        expect(res.body.message).to.eql('successfully updated')
+  describe('tests that need players', (done) => {
+    let testPlayer;
+    beforeEach((done) => {
+      let newPlayer = new NflPlayer({name: 'test', active: true, weight: 250});
+      newPlayer.save((err, nflPlayers) => {
+        testPlayer = nflPlayers;
         done();
       });
     });
-    it('should delete a player', (done) => {
-      request('localhost:3000')
-      .delete('/nflPlayers/' + testPlayer._id)
-      .end((err, res) => {
-        expect(err).to.eql(null);
-        expect(res).to.have.status(200);
-        expect(res.body.message).to.eql('successfully deleted');
-        done();
+      it('should update a player', (done) => {
+        testPlayer.name = 'updated';
+        request('localhost:3000')
+        .put('/nflPlayers/')
+        .send(testPlayer)
+        .end((err, res) => {
+          console.log('res', res.body);
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.eql('successfully updated')
+          done();
+        });
       });
-    });
-    it('should find the average weight of all players', (done) => {
-      request('localhost:3000')
-      .average('/nflPlayers/')
-      .end((err, res) => {
-        expect(err).to.eql(null);
-        expect(res).to.have.status(200);
-        expect(Array.isArray(res.body)).to.eql(true);
-        done();
+      it('should delete a player', (done) => {
+        request('localhost:3000')
+        .delete('/nflPlayers/' + testPlayer._id)
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(res.body.message).to.eql('successfully deleted');
+          done();
+        });
+      });
+      it('should find the average weight of all players', (done) => {
+        request('localhost:3000')
+        .get('/nflPlayers/average-weight')
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(typeof res.body.avgWeight).to.eql('number');
+          done();
+        });
       });
     });
   });
-});

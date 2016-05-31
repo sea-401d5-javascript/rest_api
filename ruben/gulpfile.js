@@ -1,10 +1,11 @@
+'use strict';
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const express = require('express');
 
 gulp.task('lint', () => {
-  gulp.src('./server.js')
+  gulp.src(['./server.js', './test/test.js'])
     .pipe(eslint({
       "ecmaVersion": 6
     }))
