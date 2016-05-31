@@ -47,7 +47,7 @@ describe('Router tests', () => {
     describe('Man United tests that need data', (done) => {
       let testManUPlayer;
       beforeEach((done) => {
-        let newManUPlayer = new ManUnitedPlayer({name: 'test', goals:20})
+        let newManUPlayer = new ManUnitedPlayer({name: 'test', goals:20});
         newManUPlayer.save((err, player) => {
           testManUPlayer = player;
           done();
@@ -106,7 +106,7 @@ describe('Router tests', () => {
     describe('Barca tests that need data', (done) => {
       let testBarcaPlayer;
       beforeEach((done) => {
-        let newBarcaPlayer = new BarcaPlayer({name: 'test', goals: 100})
+        let newBarcaPlayer = new BarcaPlayer({name: 'test', goals: 100});
         newBarcaPlayer.save((err, player) => {
           testBarcaPlayer = player;
           done();
@@ -147,7 +147,7 @@ describe('Router tests', () => {
       .end((err,res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
-        expect(res.body).to.eql('Barcalona players scored 200 goals, which is more than Man United Players.')
+        expect(res.body).to.eql('Barcalona players scored 200 goals, which is more than Man United Players.');
         done();
       });
     });
