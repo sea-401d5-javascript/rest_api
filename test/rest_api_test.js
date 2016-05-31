@@ -22,23 +22,16 @@ if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
 }
 
-
 require(__dirname + '/../lib/server');
 
 describe('rest api tests', () => {
   beforeEach('read files in data', (done) => {
     fileArr = fs.readdirSync(__dirname + '/../data');
-    testFile = '{"test": "test"}'
-    let nextFile = (fs.readdirSync(dir)).length +1
-    file = fs.createWriteStream(dir + '/' + nextFile + '.json')
-    var bufferStream = new stream.PassThrough();
-    let inBuf = new Buffer(rooney);
-    bufferStream.end(inBuf);
-    bufferStream.pipe(file);
+    testFile = '{"test": "test"}';
     done();
-     });
+  });
 
-   it('should post correctly', (done) => {
+  it('should post correctly', (done) => {
     request('localhost:3000')
       .post('/rooney')
       .send(testFile)
@@ -51,7 +44,7 @@ describe('rest api tests', () => {
       });
   });
   it('should delete correctly', (done) => {
-   request('localhost:3000')
+    request('localhost:3000')
      .delete('/rooney')
      .end((err, res) => {
       //  newFileArr = fs.readdirSync(__dirname + '/../data');
@@ -60,7 +53,7 @@ describe('rest api tests', () => {
        expect(res).to.have.status(200);
        done();
      });
- });
+  });
   it('should respond to a failed test', (done) => {
     request('localhost:3000')
     .get('/fail')
@@ -92,22 +85,22 @@ describe('rest api tests', () => {
     });
   });
 
-describe('put tests', () => {
-  before('read file', () => {
-     fileOne = fs.readFileSync(__dirname + '/../data/1.json').toString();
-  })
-  it('should put properly', (done) =>
+  describe('put tests', () => {
+    before('read file', () => {
+      fileOne = fs.readFileSync(__dirname + '/../data/1.json').toString();
+    });
+    it('should put properly', (done) =>
    {
-    request('localhost:3000')
-      .put('/rooney/1')
-      .send('{"test": "test"}')
-      .end((err, res) => {
-        newFileOne = fs.readFileSync(__dirname + '/../data/1.json').toString();
-        expect(err).to.eql(null);
-        expect(res.body.message).to.eql('successfully updated');
-        expect(res).to.have.status(200);
-        done();
-      });
+      request('localhost:3000')
+        .put('/rooney/1')
+        .send('{"test": "test"}')
+        .end((err, res) => {
+          newFileOne = fs.readFileSync(__dirname + '/../data/1.json').toString();
+          expect(err).to.eql(null);
+          expect(res.body.message).to.eql('successfully updated');
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
   });
-})
-})
+});
