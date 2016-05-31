@@ -6,26 +6,42 @@ const expect = chai.expect;
 chai.use(chaiHTTP);
 const request = chai.request;
 const fs = require('fs');
+const stream = require('stream');
 
 let fileArr = [];
 let newFileArr = [];
 let newDeletedFileArr = [];
 let newFileOne;
 let fileOne;
+let rooney = '';
+let testFile;
+let file;
 
+const dir =  __dirname + '/../data';
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+}
 
 
 require(__dirname + '/../lib/server');
 
 describe('rest api tests', () => {
-  before('read files in data', (done) => {
+  beforeEach('read files in data', (done) => {
     fileArr = fs.readdirSync(__dirname + '/../data');
+    testFile = '{"test": "test"}'
+    let nextFile = (fs.readdirSync(dir)).length +1
+    file = fs.createWriteStream(dir + '/' + nextFile + '.json')
+    var bufferStream = new stream.PassThrough();
+    let inBuf = new Buffer(rooney);
+    bufferStream.end(inBuf);
+    bufferStream.pipe(file);
     done();
      });
+
    it('should post correctly', (done) => {
     request('localhost:3000')
       .post('/rooney')
-      .send('{"test": "test"}')
+      .send(testFile)
       .end((err, res) => {
         newDeletedFileArr = fs.readdirSync(__dirname + '/../data');
         expect(err).to.eql(null);
@@ -36,11 +52,11 @@ describe('rest api tests', () => {
   });
   it('should delete correctly', (done) => {
    request('localhost:3000')
-     .delete('/rooney/8')
+     .delete('/rooney')
      .end((err, res) => {
-       newFileArr = fs.readdirSync(__dirname + '/../data');
+      //  newFileArr = fs.readdirSync(__dirname + '/../data');
        expect(err).to.eql(null);
-       expect(newFileArr).to.not.eql(fileArr);
+       expect(res.body.message).to.eql('successfully deleted');
        expect(res).to.have.status(200);
        done();
      });
@@ -88,7 +104,7 @@ describe('put tests', () => {
       .end((err, res) => {
         newFileOne = fs.readFileSync(__dirname + '/../data/1.json').toString();
         expect(err).to.eql(null);
-        expect(newFileOne).to.not.eql(fileOne);
+        expect(res.body.message).to.eql('successfully updated');
         expect(res).to.have.status(200);
         done();
       });
