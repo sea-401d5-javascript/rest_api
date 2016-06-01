@@ -15,10 +15,12 @@ mongoose.connect('mongodb://localhost/dev_db');
 const manUnitedRouter = require('./routes/man_united_routes');
 const barcaRouter = require('./routes/barca_routes');
 const compareRouter = require('./routes/compare_route');
+const authRouter = require('./routes/auth_routes');
 
 app.use('/manUnited', manUnitedRouter);
 app.use('/barca', barcaRouter);
 app.use('/compare', compareRouter);
+app.use('/auth', authRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).json({message: err.message});
