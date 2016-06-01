@@ -20,6 +20,17 @@ describe('Authorization router tests', () => {
       done();
     });
   });
-
-  
+  describe('Authorization tests', () => {
+    it('Should sign up a new user', (done) => {
+      request('localhost:6969')
+      .post('/auth/signup')
+      .send({username: 'testy', password: 'test'})
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.token).to.eql('token');
+        done();
+      });
+    });
+  });
 });
