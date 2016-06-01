@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -14,20 +14,20 @@ milkShakeRouter.get('/', (req, res, next) => {
   });
 });
 
-milkShakeRouter.post('/', jsonParser, (req, res) => {
+milkShakeRouter.post('/', jsonParser, (req, res, next) => {
   let newMilkshake = new MilkShake(req.body);
-  newMilkShake.save((err, milkshake) => {
+  newMilkshake.save((err, milkshake) => {
     if(err) return next(err);
     res.json(milkshake);
   });
 });
 
-milkShakeRouter.put('/', jsonParser, (req, res) => {
+milkShakeRouter.put('/', jsonParser, (req, res, next) => {
   let _id = req.body._id;
-  MilkShake.findOneAndUpdate({_id}, req,body, (err, milkshake) => {
+  MilkShake.findOneAndUpdate({_id}, req.body, (err, milkshake) => {
     if(err) return next(err);
     let message = 'successfully updated';
-    res.json({message});
+    res.json({message}, milkshake);
   });
 });
 
@@ -36,6 +36,6 @@ milkShakeRouter.delete('/:id', (req, res, next) => {
   MilkShake.findOneAndRemove({_id}, (err, milkshake) => {
     if(err) return next(err);
     let message = 'successfully deleted';
-    res.json({message});
+    res.json({message}, milkshake);
   });
 });
