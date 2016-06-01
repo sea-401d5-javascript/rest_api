@@ -11,3 +11,15 @@ const request = chai.request;
 const dbPort = process.env.MONGOLAB_URI;
 process.env.MONGOLAB_URI = 'mongodb://localhost/test_db';
 require('../server');
+
+describe('Authorization router tests', () => {
+
+  after((done) => {
+    process.env.MONGOLAB_URI = dbPort;
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+
+  
+});
