@@ -2,7 +2,7 @@
 
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
-const Shark = require('../schema/sharks');
+const Shark = require('../model/shark');
 const mongoose = require('mongoose');
 chai.use(chaiHTTP);
 const expect = chai.expect;
@@ -13,7 +13,7 @@ process.env.NODE_ENV = 'TEST';
 process.env.MONGOLAB_URI = 'mongodb://localhost/test_db';
 
 require('../server');
-
+ 
 describe('The /shark route', () => {
   let testShark;
   beforeEach((done) => {
