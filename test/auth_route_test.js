@@ -32,5 +32,16 @@ describe('Authorization router tests', () => {
         done();
       });
     });
+    it('Should login a user', (done) => {
+      request('localhost:6969')
+      .get('/auth/login')
+      .auth('testy', 'test')
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res).to.have.status(200);
+        expect(res.body.token).to.eql('token');
+        done();
+      });
+    });
   });
 });
