@@ -9,6 +9,7 @@ const milkShakeRouter = module.exports = exports = express.Router();
 
 milkShakeRouter.get('/', (req, res, next) => {
   MilkShake.find({}, (err, milkshakes) => {
+    console.log('not getting', milkshakes);
     if(err) return next(err);
     res.json(milkshakes);
   });
@@ -24,18 +25,18 @@ milkShakeRouter.post('/', jsonParser, (req, res, next) => {
 
 milkShakeRouter.put('/', jsonParser, (req, res, next) => {
   let _id = req.body._id;
-  MilkShake.findOneAndUpdate({_id}, req.body, (err, milkshake) => {
+  MilkShake.findOneAndUpdate({_id}, req.body, (err) => {
     if(err) return next(err);
     let message = 'successfully updated';
-    res.json({message}, milkshake);
+    res.json({message});
   });
 });
 
 milkShakeRouter.delete('/:id', (req, res, next) => {
   let _id = req.params.id;
-  MilkShake.findOneAndRemove({_id}, (err, milkshake) => {
+  MilkShake.findOneAndRemove({_id}, (err) => {
     if(err) return next(err);
     let message = 'successfully deleted';
-    res.json({message}, milkshake);
+    res.json({message});
   });
 });

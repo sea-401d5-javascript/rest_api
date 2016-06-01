@@ -23,7 +23,7 @@ describe('Testing CRUD routes IceCream', () => {
 
   it('should respond with 404 to bad path', (done) => {
     request('localhost:3000')
-    .get('/badpath')
+    .get('/wrongway')
     .end((err, res) => {
       expect(err).to.not.eql(null);
       expect(res).to.have.status(404);
@@ -72,7 +72,6 @@ describe('Testing CRUD routes IceCream', () => {
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
-        console.log(res.body);
         expect(res.body.message).to.eql('successfully updated');
         done();
       });
