@@ -2,7 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser').json();
-const ManUnitedPlayer = require('../schema/man_United_Player');
+const ManUnitedPlayer = require('../model/man_United_Player');
 
 const router = module.exports = exports = express.Router();
 
