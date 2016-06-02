@@ -58,11 +58,13 @@ describe('Data reliant cookie tests', () => {
     });
   });
   it('should update candy',(done)=> {
+    console.log('before',experimentalCookie);
     experimentalCookie.edible = true;
     request('localhost:3000')
     .put('/cookies')
     .send(experimentalCookie)
     .end((err,res)=> {
+      console.log('after',res);
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
       expect(res.body.message).to.eql('Cookie updated!');
