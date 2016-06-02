@@ -7,7 +7,9 @@ const mongoose = require('mongoose');
 chai.use(chaiHTTP);
 const expect = chai.expect;
 const request = chai.request;
+const jwt = require('jsonwebtoken');
 
+const secret = process.env.SECRET || 'changeme'
 const dbPort = process.env.MONGOLAB_URI;
 process.env.NODE_ENV = 'TEST';
 process.env.MONGOLAB_URI = 'mongodb://localhost/test_db';
@@ -33,18 +35,21 @@ describe('User authorization should', () => {
     });
   });
 
-  it('allow a known user to login', (done) => {
+  it('allow a known user to login and send a correct token', (done) => {
+
     request('localhost:3000')
       .get('/signin')
       .auth('testuser', 'testuser')
       .end((err, res) => {
         expect(err).to.eql(null);
-        expect(res.body).to.have.property('token');
+        expect(res.body.token).to.eql(jwt.sign({
+          _id: testUser._id
+        }, secret));
         done();
       });
   });
 
-  it('allow a new user to be created', (done) => {
+  it('allow a new user to be created and send a token back', (done) => {
     request('localhost:3000')
       .post('/signup')
       .set('Content-Type', 'application/json')
@@ -52,12 +57,14 @@ describe('User authorization should', () => {
         username: 'user',
         password: 'password'
       })
-      .end((err, res) => {
-        expect(err).to.eql(null);
-        expect(res).to.have.status(200);
-        //expect(res.body.token).to.have.eql('posty');
-        expect(res.body).to.have.property('token');
-        done();
+      .end((err, res) => {User.find({username: 'user'}, (err, user) => {
+          if (err) return err;
+          expect(err).to.eql(null);
+          expect(res).to.have.status(200);
+          expect(res.body.token).to.eql(jwt.sign({_id: user[0]._id}, secret))
+            //expect(res.body).to.have.property('token');
+          done();
+        });
       });
   });
-    });
+});
