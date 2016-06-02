@@ -22,7 +22,7 @@ describe('Authorization router tests', () => {
     beforeEach((done) => {
       let newUser = new User({
         username: 'testuser',
-        password: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1NzUwNzAzNWNjZDYzYmY5MGE1ZWZjYjQiLCJpYXQiOjE0NjQ4ODkzOTd9.eExJviSNGYMwcGpnVArhzUFw-eIXmNrdiUzY-0AwNTY'
+        password: '$2a$08$tExN9A1AEkj.V9ea5IMdPOyU6haLngPQgnsmpdIUce14Vk.3cSTqe'
       });
       newUser.save((err, user) => {
         testUser = user;
@@ -51,7 +51,7 @@ describe('Authorization router tests', () => {
     it('Should login a user', (done) => {
       request('localhost:6969')
       .get('/auth/login')
-      .auth('testuser', 'testuser')
+      .auth('testuser', 'test')
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
