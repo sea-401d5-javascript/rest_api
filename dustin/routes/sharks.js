@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
 const bodyParser = require('body-parser').json();
-const Shark = require('../schema/companies');
+const Shark = require('../model/shark');
 
 //index companies
 router.get('/', (req, res, next) => {

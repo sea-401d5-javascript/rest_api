@@ -20,12 +20,15 @@
     "gulp-eslint": "^2.0.0",
     "gulp-mocha": "^2.2.0",
     "mocha": "^2.4.5",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "really-need": "^1.9.2"
   },
   "dependencies": {
+    "bcrypt": "^0.8.6",
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "json-fs-store": "^1.0.0",
+    "jsonwebtoken": "^7.0.0",
     "mongoose": "^4.4.19"
   }
 }
