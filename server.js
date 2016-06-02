@@ -25,7 +25,8 @@ app.use('/compare', compareRouter);
 app.use('/auth', authRouter);
 
 app.get('/test', (req, res) => {
-  res.send('don\t need a token');
+  let message = 'don\t need a token';
+  res.json({message});
 });
 
 app.post('/test', bodyParser, jwtAuth, (req, res) => {

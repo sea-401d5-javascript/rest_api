@@ -20,4 +20,14 @@ describe('Token tests', () => {
       done();
     });
   });
+  it('Should do a get test route', (done) => {
+    request('localhost:6969')
+    .get('/test')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(res).to.have.status(200);
+      expect(res.body.message).to.eql('don\t need a token');
+      done();
+    });
+  });
 });
