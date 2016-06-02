@@ -5,6 +5,8 @@ const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const errorHandler =require('./lib/error_handling');
+const bodyParser = require('body-parser').json();
+const jwtAuth = require('./lib/jwt_auth');
 
 const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
 
@@ -21,6 +23,14 @@ app.use('/manUnited', manUnitedRouter);
 app.use('/barca', barcaRouter);
 app.use('/compare', compareRouter);
 app.use('/auth', authRouter);
+
+app.get('/test', (req, res) => {
+  res.send('don\t need a token');
+});
+
+app.post('/test', bodyParser, jwtAuth, (req, res) => {
+  req.json({message: 'need a token', user: req.user});
+});
 
 app.use((err, req, res, next) => {
   res.status(500).json({message: err.message});
