@@ -5,10 +5,12 @@ const jsonPaser = bodyParser.json();
 const routes = require('./routes/index');
 const companies = require('./routes/companies');
 const sharks = require('./routes/sharks');
+const authRouter = require('./routes/auth')
 const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const errorHandler = require('./lib/errorhandler');
+const jwtAuth = require('./lib/jwt_auth')
 
 const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
 
@@ -21,6 +23,13 @@ app.use(jsonPaser);
 app.use('/', routes);
 app.use('/companies', companies);
 app.use('/sharks', sharks);
+app.use('/', authRouter)
+
+
+app.post('/test', jwtAuth, (req,res) => {
+  res.json({message:'need a token', user:req.user});
+  next(err);
+})
 
 app.get('/*', (req, res) => {
   res.status(404).json({

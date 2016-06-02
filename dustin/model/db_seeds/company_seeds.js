@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'DEV') mongoose.connect('mongodb://localhost/dev_db
 mongoose.connection.collections['companies'].drop(function () {
   console.log('collection dropped');
 });
-
+  
 new Company({
   name: 'Scrub Daddy',
   tvDealReached: true,

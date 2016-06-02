@@ -10,7 +10,7 @@ const Shark = require('../../schema/sharks');
 
   mongoose.connection.collections['sharks'].drop(function () {
     console.log('collection dropped');
-
+  
     new Shark({
       name: 'Kevin O\'Leary'
     }).save((err, data) => {

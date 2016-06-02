@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
 const bodyParser = require('body-parser').json();
-const Company = require('../schema/companies');
+const Company = require('../model/company');
 
 //index companies
 router.get('/', (req, res, next) => {
@@ -13,8 +13,6 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/dealstats', (req, res, next) => {
-
-  //get tvDealValuation amount
   Company.find({
     tvDealValuation: {
       $ne: true
