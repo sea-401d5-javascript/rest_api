@@ -29,7 +29,7 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/test', bodyParser, jwtAuth, (req, res) => {
-  req.json({message: 'need a token', user: req.user});
+  res.json({message: 'need a token', user: req.user});
 });
 
 app.use((err, req, res, next) => {
