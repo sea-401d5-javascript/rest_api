@@ -8,7 +8,7 @@ const errorHandler =require('./lib/error_handling');
 
 const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
 
-app.use(morgan('dev'));
+app.use(morgan(dbPort));
 
 mongoose.connect('mongodb://localhost/dev_db');
 
@@ -20,7 +20,7 @@ app.use('/manUnited', manUnitedRouter);
 app.use('/barca', barcaRouter);
 app.use('/compare', compareRouter);
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   res.status(500).json({message: err.message});
 });
 

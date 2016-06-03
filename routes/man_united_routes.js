@@ -27,7 +27,7 @@ router.post('/', bodyParser,  (req, res) => {
 
 router.put('/', bodyParser, (req, res, next) => {
   let _id = req.body._id;
-  ManUnitedPlayer.findOneAndUpdate({_id}, req.body, (err,data) => {
+  ManUnitedPlayer.findOneAndUpdate({_id}, req.body, (err) => {
     if(err) return next(err);
     let message = 'successfully updated';
     res.json({message});
@@ -36,7 +36,7 @@ router.put('/', bodyParser, (req, res, next) => {
 
 router.delete('/:id', bodyParser, (req, res, next) => {
   let _id = req.params.id;
-  ManUnitedPlayer.findOneAndRemove({_id}, null, (err,data) => {
+  ManUnitedPlayer.findOneAndRemove({_id}, null, (err) => {
     if(err) return next(err);
     let message = 'successfully deleted';
     res.json({message});

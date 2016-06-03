@@ -44,7 +44,7 @@ describe('Router tests', () => {
       });
     });
 
-    describe('Man United tests that need data', (done) => {
+    describe('Man United tests that need data', () => {
       let testManUPlayer;
       beforeEach((done) => {
         let newManUPlayer = new ManUnitedPlayer({name: 'test', goals:20});
@@ -103,7 +103,7 @@ describe('Router tests', () => {
       });
     });
 
-    describe('Barca tests that need data', (done) => {
+    describe('Barca tests that need data', () => {
       let testBarcaPlayer;
       beforeEach((done) => {
         let newBarcaPlayer = new BarcaPlayer({name: 'test', goals: 100});
