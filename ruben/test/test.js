@@ -152,7 +152,7 @@ describe('NFL tests', () => {
           done();
         });
       });
-      it('should find the average weight of all players', (done) => {
+      it('should find the average weight of all NFL players', (done) => {
         request('localhost:3000')
         .get('/nflPlayers/average-weight')
         .end((err, res) => {
