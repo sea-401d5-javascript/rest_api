@@ -12,7 +12,7 @@ router.post('/signup', bodyParser, (req,res,next)=> {
   newUser.password = newUser.hashing();
   req.body.password = null;
   User.findOne({username: req.body.username}, (err,user)=> {
-    if(err || user) return next(new Error('Could not create user'));
+    if(err || user) return next(new Error('User already exists!'));
     newUser.save((err,data)=> {
       if (err) return next(new Error('Could not create user'));
       res.json({token:data.tokenGen()});
