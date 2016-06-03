@@ -18,6 +18,7 @@ describe('Non-data cookie tests',() => {
   after((done) => {
     process.env.MONGOLAB_URI = dbPort;
     mongoose.connection.db.dropDatabase(()=> {
+      mongoose.disconnect();
       done();
     });
   });
@@ -53,18 +54,16 @@ describe('Data reliant cookie tests', () => {
   beforeEach((done)=> {
     var questionableCookie = new Cookie({name:'Triple Sausage Cream Cheese Jalapeno Surprise',edible:false});
     questionableCookie.save((err,res)=> {
-      experimentalCookie = questionableCookie;
+      experimentalCookie = res;
       done();
     });
   });
   it('should update candy',(done)=> {
-    console.log('before',experimentalCookie);
     experimentalCookie.edible = true;
     request('localhost:3000')
     .put('/cookies')
     .send(experimentalCookie)
     .end((err,res)=> {
-      console.log('after',res);
       expect(err).to.eql(null);
       expect(res).to.have.status(200);
       expect(res.body.message).to.eql('Cookie updated!');
