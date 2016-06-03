@@ -4,6 +4,7 @@ const express = require('express');
 const jsonParser = require('body-parser').json();
 const Marvel = require(__dirname + '/../schema/marvel');
 const errorHandle = require(__dirname + '/../lib/err_handler.js');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 var marvelRouter = module.exports = exports = express.Router();
 
@@ -11,6 +12,13 @@ marvelRouter.get('/marvel', (req, res) => {
   Marvel.find({}, (err, data) => {
     if (err) return errorHandle(err, res);
 
+    res.status(200).json(data);
+  });
+});
+
+marvelRouter.get('/mymarvel', jwtAuth, (req, res) => {
+  Marvel.find({heroID: req.user._id}, (err, data) => {
+    if(err) return errorHandle(err, res);
     res.status(200).json(data);
   });
 });

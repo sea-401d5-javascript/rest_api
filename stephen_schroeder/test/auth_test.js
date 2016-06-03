@@ -27,10 +27,10 @@ describe('authorization tests', () => {
     .post('/signup')
     .send({ username: 'larry', password: 'flint' })
     .end((err, res) => {
-      // console.log(res);
+      console.log(res);
       expect(err).to.eql(null);
-      expect(res).to.have.status(200);
-      expect(res.body).to.eql({ token: 'you made it in' });
+      expect(res.body.token).to.exist;
+      expect(res.body.token).to.have.length.above(0);
       done();
     });
   });
