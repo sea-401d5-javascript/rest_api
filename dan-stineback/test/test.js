@@ -4,6 +4,7 @@ const chai = require('chai');
 const chaiHTTP = require('chai-http');
 const Cat = require('../model/cats');
 const Dog = require('../model/dogs');
+const basic = require('../lib/basic-http');
 
 const mongoose = require('mongoose');
 chai.use(chaiHTTP);
@@ -18,7 +19,7 @@ require('../server');
 
 describe('Cat test', () => {
   after((done)=> {
-    process.env.MONGOLAB_URI = dbPort;
+    process.env.MONGODB_URI = dbPort;
     mongoose.connection.db.dropDatabase(()=>{
       done();
     });
@@ -83,7 +84,7 @@ describe('Cat test', () => {
 
 describe('Dog test', () => {
   after((done)=> {
-    process.env.MONGOLAB_URI = dbPort;
+    process.env.MONGODB_URI = dbPort;
     mongoose.connection.db.dropDatabase(()=>{
       done();
     });
@@ -141,6 +142,49 @@ describe('Dog test', () => {
           expect(res.body.message).to.eql('successfully deleted');
           done();
         });
+    });
+  });
+});
+
+describe('unit tests for auth', () => {
+  it('should auth a user', () => {
+    let baseString = new Buffer('vic:password').toString('base64');
+    let authString = 'Basic ' + baseString;
+    let req = {headers:{authorization: authString}};
+    basic(req, {}, () => {
+      expect(req.auth).to.eql({username: 'vic', password: 'password'});
+    });
+  });
+});
+
+describe('signin tests', () => {
+  after((done)=> {
+    process.env.MONGODB_URI = dbPort;
+    mongoose.connection.db.dropDatabase(() => {
+      done();
+    });
+  });
+  it('should have a token', (done) => {
+    request('localhost:3000')
+    .post('/signup')
+    .send({username:'vic', password:'vic'})
+    .end((err,res) => {
+      expect(err).to.eql(null);
+      expect(res.body).to.have.property('token');
+      done();
+    });
+  });
+});
+
+describe('catch error test', () => {
+  it('should give an error for unsupported routes', (done) => {
+    request('localhost:3000')
+    .get('/*')
+    .end((err, res) => {
+      expect(err).to.not.eql(null);
+      expect(res).to.have.status(404);
+      expect(res.body).to.eql({message: 'not found'});
+      done();
     });
   });
 });

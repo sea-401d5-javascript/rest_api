@@ -24,6 +24,6 @@ app.use((err, req, res, next) => {
 });
 
 app.use((req, res)=> {
-  res.status(404).json({msg: 'page not found'});
+  res.status(404).json({message: 'not found'});
 });
 app.listen(3000, () => console.log('server is up on 3000'));
