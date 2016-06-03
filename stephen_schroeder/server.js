@@ -3,7 +3,7 @@
 const app = module.exports = exports = require('express')();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser').json();
-const jwtAuth = require('/lib/jwt_auth');
+const jwtAuth = require('./lib/jwt_auth');
 
 const errorHandle = require(__dirname + '/lib/err_handler');
 
