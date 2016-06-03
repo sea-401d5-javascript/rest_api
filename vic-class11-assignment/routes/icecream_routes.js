@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-const IceCream = require('../schema/icecream');
+const IceCream = require('../model/icecream');
 
 const iceCreamRouter = module.exports = exports = express.Router();
 

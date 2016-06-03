@@ -5,12 +5,12 @@ const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const errorHandler = require('./lib/error_handling');
-const authRouter = require('./route/auth_routes');
 
 const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
 
 mongoose.connect(dbPort);
 
+const authRouter = require('./routes/auth_routes');
 const iceCreamRouter = require('./routes/icecream_routes');
 const milkShakeRouter = require('./routes/milkshake_routes');
 

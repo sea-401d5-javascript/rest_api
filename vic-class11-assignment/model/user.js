@@ -3,8 +3,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../Schema/user');
 const secret = process.env.SECRET || 'changeme';
+
+const User = new mongoose.Schema({
+  username: {type: String, required: true},
+  password: {type: String, required: true}
+});
 
 User.methods.hashPassword = function() {
   return bcrypt.hashSync(this.password, 8);

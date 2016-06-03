@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-const MilkShake = require('../schema/milkshake');
+const MilkShake = require('../model/milkshake');
 
 const milkShakeRouter = module.exports = exports = express.Router();
 
