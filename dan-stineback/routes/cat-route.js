@@ -1,8 +1,8 @@
 'use strict';
 const express = require('express');
-const Cat = require('../schema/cats');
+const Cat = require('../model/cats');
 const bodyParser = require('body-parser').json();
-const jsonParser = bodyParser;
+
 
 const catRouter = module.exports = exports = express.Router();
 
@@ -26,8 +26,7 @@ catRouter.put('/', bodyParser, (req, res, next) => {
   let _id = req.body._id;
   Cat.findOneAndUpdate({_id}, req.body, (err, cat) =>{
     if (err) return next(err);
-    let message = "successfully updated";
-    res.json({message});
+    res.json({message:'successfully updated', data: cat});
   });
 });
 
@@ -35,7 +34,6 @@ catRouter.delete('/:id', (req, res, next) => {
   let _id = req.params.id;
   Cat.findOneAndRemove({_id}, null, (err, cat) => {
     if (err) return next(err);
-    let message = 'successfully deleted';
-    res.json({message});
+    res.json({message: 'successfully deleted', data: cat});
   });
 });

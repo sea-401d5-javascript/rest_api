@@ -15,7 +15,7 @@ router.post('/signup', bodyParser, (req, res, next) => {
     if (err || user) return next(new Error('could not create user'));
     newUser.save((err, user) => {
       if (err) return next(new Error('could not create user'));
-      res.json({token: user.generateToken()});
+      res.json({message: req.body.username + ' We mad a token for you', token: user.generateToken()});
     });
   });
 });
@@ -25,6 +25,6 @@ router.get('/signin', basicHTTP, (req, res, next) => {
     if (err || !user) return next(new Error('Could not sign in'));
     if (!user.comparePassword(req.auth.password)) return next(new Error('Could not sign in'));
 
-    res.json({token: user.generateToken()});
+    res.json({message: req.auth.username + ' Here is your token', token: user.generateToken()});
   });
 });

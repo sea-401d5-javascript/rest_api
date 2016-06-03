@@ -1,8 +1,8 @@
 'use strict';
 const express = require('express');
-const Dog = require('../schema/dogs');
+const Dog = require('../model/dogs');
 const bodyParser = require('body-parser').json();
-const jsonParser = bodyParser;
+
 
 const dogRouter = module.exports = exports = express.Router();
 
@@ -26,8 +26,7 @@ dogRouter.put('/', bodyParser, (req, res, next) => {
   let _id = req.body._id;
   Dog.findOneAndUpdate({_id}, req.body, (err, dog) =>{
     if (err) return next(err);
-    let message = "successfully updated";
-    res.json({message});
+    res.json({message: 'successfully updated', data: dog});
   });
 });
 
@@ -35,7 +34,6 @@ dogRouter.delete('/:id', (req, res, next) => {
   let _id = req.params.id;
   Dog.findOneAndRemove({_id}, null, (err, dog) => {
     if (err) return next(err);
-    let message = 'successfully deleted';
-    res.json({message});
+    res.json({message: 'successfully deleted', data: dog});
   });
 });

@@ -2,8 +2,8 @@
 
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
-const Cat = require('../schema/cats');
-const Dog = require('../schema/dogs');
+const Cat = require('../model/cats');
+const Dog = require('../model/dogs');
 
 const mongoose = require('mongoose');
 chai.use(chaiHTTP);
@@ -20,7 +20,7 @@ describe('Cat test', () => {
   after((done)=> {
     process.env.MONGOLAB_URI = dbPort;
     mongoose.connection.db.dropDatabase(()=>{
-        done();
+      done();
     });
   });
   it('should get a list of cats', (done) => {
@@ -42,7 +42,6 @@ describe('Cat test', () => {
         expect(res).to.have.status(200);
         expect(res.body.name).to.eql('Vic');
         expect(res.body).to.have.property('_id');
-        expect(res.body.size).to.eql('large');
         done();
       });
   });
@@ -69,16 +68,16 @@ describe('Cat test', () => {
           done();
         });
     });
-     it('should delete a cat', (done)=>{
-       request('localhost:3000')
+    it('should delete a cat', (done)=>{
+      request('localhost:3000')
         .delete('/cats/' + testCat._id)
         .end((err, res)=>{
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
           expect(res.body.message).to.eql('successfully deleted');
           done();
-        })
-     })
+        });
+    });
   });
 });
 
@@ -86,7 +85,7 @@ describe('Dog test', () => {
   after((done)=> {
     process.env.MONGOLAB_URI = dbPort;
     mongoose.connection.db.dropDatabase(()=>{
-        done();
+      done();
     });
   });
   it('should get a list of dogs', (done) => {
@@ -108,11 +107,9 @@ describe('Dog test', () => {
         expect(res).to.have.status(200);
         expect(res.body.name).to.eql('Vic');
         expect(res.body).to.have.property('_id');
-        expect(res.body.size).to.eql('large');
         done();
       });
   });
-
 
   describe('test that need data', ()=> {
     let testDog;
@@ -135,15 +132,15 @@ describe('Dog test', () => {
           done();
         });
     });
-     it('should delete a dog', (done)=>{
-       request('localhost:3000')
+    it('should delete a dog', (done)=>{
+      request('localhost:3000')
         .delete('/cats/' + testDog._id)
         .end((err, res)=>{
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
           expect(res.body.message).to.eql('successfully deleted');
           done();
-        })
-     })
+        });
+    });
   });
 });
