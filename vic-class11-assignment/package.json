@@ -1,10 +1,12 @@
 {
-  "name": "rest_api",
+  "name": "two_resource_api_with_authentication",
   "version": "1.0.0",
   "description": "##To Submit this Assignment   * fork this repository   * write all of your code in a folder containing your name   * push to your repository   * submit a pull request to this repository   * submit a link to your PR in canvas",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha",
+    "start": "node index.js",
+    "lint": "./node_modules/eslint/bin/eslint.js *"
   },
   "repository": {
     "type": "git",
