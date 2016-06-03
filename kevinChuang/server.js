@@ -10,9 +10,11 @@ mongoose.connect(dbPort);
 
 const cookieRouter = require('./routes/cookieRouter.js');
 const candyRouter = require('./routes/candyRouter.js');
+const authRoute = require('./routes/auth_route.js');
 
 app.use('/cookies', cookieRouter);
 app.use('/candy', candyRouter);
+app.use('/', authRoute);
 
 
 app.use((err,req,res,next)=> {

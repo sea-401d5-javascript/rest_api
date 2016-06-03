@@ -52,8 +52,8 @@ describe('Data reliant candy tests', () => {
   var experimentalCandy;
   beforeEach((done)=> {
     var deathCandy = new Candy({name:'CandyX',edible:false});
-    deathCandy.save((err,res)=> {
-      experimentalCandy = deathCandy;
+    deathCandy.save((err,candy)=> {
+      experimentalCandy = candy;
       done();
     });
   });
