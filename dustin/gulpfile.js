@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const mocha = require('gulp-mocha');
 const lint = require('gulp-eslint');
 
-var js = ['./model/**/*.js', './lib/**/*.js', './routes/**/*.js', './test/**/*.js', './*.js' ]
+//var js = ['./model/**/*.js', './lib/**/*.js', './routes/**/*.js', './test/**/*.js', './*.js' ]
 
 gulp.task('linter' , () => {
   return gulp.src(['./*.js', './test/*.js', './lib/*.js'])

@@ -7,16 +7,30 @@ const mongoose = require('mongoose');
 chai.use(chaiHTTP);
 const expect = chai.expect;
 const request = chai.request;
+const User = require('../model/user');
+const jwt = require('jsonwebtoken');
+const secret = process.env.SECRET || 'changeme';
 
 const dbPort = process.env.MONGOLAB_URI;
 process.env.NODE_ENV = 'TEST';
 process.env.MONGOLAB_URI = 'mongodb://localhost/test_db';
 
 require('../server');
- 
+
 describe('The /shark route', () => {
   let testShark;
+  let testUser;
+  let token;
+
   beforeEach((done) => {
+    let newUser = new User({
+      username: 'testuser',
+      password: '$2a$08$pMewnngJdnSYxMz6dVcl8.H6PSiCqGCEP8Gri5zA6asB/qChSFMHq'
+    });
+    newUser.save((err, user) => {
+      testUser = user;
+      token = jwt.sign({_id: testUser._id}, secret);
+    });
     let newShark = new Shark({
       name: 'test'
     });
@@ -25,25 +39,28 @@ describe('The /shark route', () => {
       done();
     });
   });
-  after((done) => {
+  afterEach((done) => {
     process.env.MONGOLAB_URI = dbPort;
     mongoose.connection.db.dropDatabase(() => {
       done();
     });
   });
 
-  it('GET should return a list of sharks', () => {
+  it('GET should return a list of sharks', (done) => {
     request('localhost:3000')
       .get('/sharks/')
+      .set('token', token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(Array.isArray(res.body)).to.eql(true);
+        done();
       });
   });
 
   it('POST should accept a post and create a new shark', (done) => {
     request('localhost:3000')
       .post('/sharks/')
+      .set('token', token)
       .send({
         name: 'posty'
       })
@@ -61,6 +78,7 @@ describe('The /shark route', () => {
     request('localhost:3000')
       .put('/sharks/')
       .send(testShark)
+      .set('token', token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
@@ -72,6 +90,7 @@ describe('The /shark route', () => {
   it('DELETE should remove a shark', (done) => {
     request('localhost:3000')
       .delete('/sharks/' + testShark._id)
+      .set('token', token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);

@@ -3,10 +3,13 @@
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
 const Company = require('../model/company');
+const User = require('../model/user');
 const mongoose = require('mongoose');
 chai.use(chaiHTTP);
 const expect = chai.expect;
 const request = chai.request;
+const jwt = require('jsonwebtoken');
+const secret = process.env.SECRET || 'changeme';
 
 const dbPort = process.env.MONGOLAB_URI;
 process.env.NODE_ENV = 'TEST';
@@ -16,7 +19,17 @@ require('../server');
 
 describe('The /company route', () => {
   let testCompany;
+  let testUser;
+  let token;
   beforeEach((done) => {
+    let newUser = new User({
+      username: 'testuser',
+      password: '$2a$08$pMewnngJdnSYxMz6dVcl8.H6PSiCqGCEP8Gri5zA6asB/qChSFMHq'
+    });
+    newUser.save((err, user) => {
+      testUser = user;
+      token = jwt.sign({_id: testUser._id}, secret);
+    });
     new Company({
       name: 'Scrub Daddy',
       tvDealReached: true,
@@ -91,12 +104,14 @@ describe('The /company route', () => {
     });
   });
 
-  it('GET should return a list of companies', () => {
+  it('GET should return a list of companies', (done) => {
     request('localhost:3000')
       .get('/companies/')
+      .set('token', token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(Array.isArray(res.body)).to.eql(true);
+        done();
       });
   });
 
@@ -106,6 +121,7 @@ describe('The /company route', () => {
       .send({
         name: 'posty'
       })
+      .set('token', token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
@@ -120,6 +136,7 @@ describe('The /company route', () => {
     request('localhost:3000')
       .put('/companies/')
       .send(testCompany)
+      .set('token', token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
@@ -131,6 +148,7 @@ describe('The /company route', () => {
   it('DELETE should remove a company', (done) => {
     request('localhost:3000')
       .delete('/companies/' + testCompany._id)
+      .set('token', token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
@@ -142,6 +160,7 @@ describe('The /company route', () => {
   it('/dealstats return deal stats', (done) => {
     request('localhost:3000')
       .get('/companies/dealstats')
+      .set('token', token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);

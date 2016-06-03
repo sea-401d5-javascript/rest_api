@@ -3,9 +3,10 @@ var express = require('express');
 var router = express.Router();
 const bodyParser = require('body-parser').json();
 const Shark = require('../model/shark');
+const jwtAuth = require('../lib/jwt_auth')
 
 //index companies
-router.get('/', (req, res, next) => {
+router.get('/', jwtAuth, (req, res, next) => {
   Shark.find({}, (err, companies) => {
     if (err) return next(err);
     res.json(companies);
@@ -13,7 +14,7 @@ router.get('/', (req, res, next) => {
 });
 
 //create companies
-router.post('/', bodyParser, (req, res, next) => {
+router.post('/', bodyParser, jwtAuth, (req, res, next) => {
   let newShark = new Shark(req.body);
   newShark.save((err, shark) => {
     if (err) return next(err);
@@ -22,7 +23,7 @@ router.post('/', bodyParser, (req, res, next) => {
 });
 
 //put shark
-router.put('/', bodyParser, (req, res, next) => {
+router.put('/', bodyParser, jwtAuth, (req, res, next) => {
   let _id = req.body._id;
   Shark.findOneAndUpdate({_id}, req.body, (err) => {
     if (err) return next(err);
@@ -34,7 +35,7 @@ router.put('/', bodyParser, (req, res, next) => {
 });
 
 //delete companies
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', jwtAuth, (req, res, next) => {
   let _id = req.params.id;
   Shark.findOneAndRemove({
     _id

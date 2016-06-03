@@ -9,7 +9,7 @@ const expect = chai.expect;
 const request = chai.request;
 const jwt = require('jsonwebtoken');
 
-const secret = process.env.SECRET || 'changeme'
+const secret = process.env.SECRET || 'changeme';
 const dbPort = process.env.MONGOLAB_URI;
 process.env.NODE_ENV = 'TEST';
 process.env.MONGOLAB_URI = 'mongodb://localhost/test_db';
@@ -28,7 +28,7 @@ describe('User authorization should', () => {
       done();
     });
   });
-  after((done) => {
+  afterEach((done) => {
     process.env.MONGOLAB_URI = dbPort;
     mongoose.connection.db.dropDatabase(() => {
       done();
@@ -57,12 +57,16 @@ describe('User authorization should', () => {
         username: 'user',
         password: 'password'
       })
-      .end((err, res) => {User.find({username: 'user'}, (err, user) => {
+      .end((err, res) => {
+        User.find({
+          username: 'user'
+        }, (err, user) => {
           if (err) return err;
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
-          expect(res.body.token).to.eql(jwt.sign({_id: user[0]._id}, secret))
-            //expect(res.body).to.have.property('token');
+          expect(res.body.token).to.eql(jwt.sign({
+            _id: user[0]._id
+          }, secret));
           done();
         });
       });
