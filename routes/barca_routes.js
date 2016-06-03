@@ -24,7 +24,7 @@ router.post('/', bodyParser, (req, res) => {
 });
 
 router.put('/', bodyParser, (req, res, next) => {
-  BarcaPlayer.findOneAndUpdate({_id: req.body._id}, req.body, (err, data) => {
+  BarcaPlayer.findOneAndUpdate({_id: req.body._id}, req.body, (err) => {
     if(err) return next(err);
     let message = 'successfully updated';
     res.json({message});
@@ -33,7 +33,7 @@ router.put('/', bodyParser, (req, res, next) => {
 
 router.delete('/:id', bodyParser, (req, res, next) => {
   let _id = req.params.id;
-  BarcaPlayer.findOneAndRemove({_id}, null, (err,data) => {
+  BarcaPlayer.findOneAndRemove({_id}, null, (err) => {
     if(err) return next(err);
     let message = 'successfully deleted';
     res.json({message});
