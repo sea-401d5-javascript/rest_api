@@ -4,7 +4,9 @@
   "description": "simple one source api to be built upon with other components as class progresses.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha",
+    "start": "node server.js",
+    "lint": "./node_modules/eslint/bin/eslint.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +19,10 @@
   },
   "homepage": "https://github.com/schrode50/rest_api#readme",
   "dependencies": {
+    "bcrypt": "^0.8.6",
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
+    "jsonwebtoken": "^7.0.0",
     "mongoose": "^4.4.19"
   },
   "devDependencies": {

@@ -4,11 +4,19 @@ const express = require('express');
 const jsonParser = require('body-parser').json();
 const DC = require(__dirname + '/../schema/dc');
 const errorHandle = require(__dirname + '/../lib/err_handler');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 var dcRouter = module.exports = exports = express.Router();
 
 dcRouter.get('/dc', (req, res) => {
   DC.find({}, (err, data) => {
+    if (err) return errorHandle(err, res);
+    res.status(200).json(data);
+  });
+});
+
+dcRouter.get('/mydc', jwtAuth, (req, res) => {
+  DC.find({heroID: req.user._id}, (err, data) => {
     if (err) return errorHandle(err, res);
     res.status(200).json(data);
   });
