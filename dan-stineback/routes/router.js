@@ -12,9 +12,9 @@ router.post('/signup', bodyParser, (req, res, next) => {
   newUser.password = hashedPassword;
   req.body.password = null;
   User.findOne({username: req.body.username}, (err, user) => {
-    if (err || user) return next(new Error('could not create user'));
+    if (err || user) return next(new Error('User name already used'));
     newUser.save((err, user) => {
-      if (err) return next(new Error('could not create user'));
+      if (err) return next(new Error('Could not save user'));
       res.json({message: req.body.username + ' We mad a token for you', token: user.generateToken()});
     });
   });
@@ -23,7 +23,7 @@ router.post('/signup', bodyParser, (req, res, next) => {
 router.get('/signin', basicHTTP, (req, res, next) => {
   User.findOne({username: req.auth.username}, (err, user) => {
     if (err || !user) return next(new Error('Could not sign in'));
-    if (!user.comparePassword(req.auth.password)) return next(new Error('Could not sign in'));
+    if (!user.comparePassword(req.auth.password)) return next(new Error('wrong password'));
 
     res.json({message: req.auth.username + ' Here is your token', token: user.generateToken()});
   });

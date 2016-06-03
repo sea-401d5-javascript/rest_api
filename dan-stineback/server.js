@@ -12,7 +12,6 @@ const dogRouter = require(__dirname + '/routes/dog-route');
 const catRouter = require(__dirname + '/routes/cat-route');
 const authRouter = require(__dirname + '/routes/router');
 
-
 app.use(morgan('dev'));
 app.use('/dogs', dogRouter);
 app.use('/cats', catRouter);
