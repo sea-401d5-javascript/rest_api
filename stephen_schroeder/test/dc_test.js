@@ -7,7 +7,7 @@ const request = chai.request;
 const mongoose = require('mongoose');
 
 process.env.MONGOLABL_URI = 'mongodb://localhost/dc_app_test';
-const server = require(__dirname + '/../server');
+require(__dirname + '/../server');
 const DC = require(__dirname + '/../schema/dc');
 
 describe('The DC API', () => {
