@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const Weasel = require(__dirname + '/../../schema/weasel');
+const Weasel = require(__dirname + '/../model/weasel');
 const bodyParser = require('body-parser').json();
 
 const weaselRouter = module.exports = exports = express.Router();
@@ -29,7 +29,7 @@ weaselRouter.put('/', bodyParser, (req, res)=>{
   let _id = req.body._id;
   Weasel.findOneAndUpdate({_id}, req.body, (err, data)=>{
     if (err) return res.json({message: 'Error updating'});
-    res.json({message: 'Update successful'});
+    res.json({message: 'Update successful', data:data});
   });
 });
 
@@ -37,6 +37,6 @@ weaselRouter.delete('/:id', (req, res)=>{
   let _id = req.params.id;
   Weasel.findOneAndRemove({_id}, (err, data)=>{
     if (err) return res.json({message: 'Error deleting'});
-    res.json({message: 'Deletion successful'});
+    res.json({message: 'Deletion successful', data:data});
   });
 });
