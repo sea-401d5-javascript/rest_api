@@ -6,16 +6,8 @@ const expect = chai.expect;
 chai.use(chaiHTTP);
 const request = chai.request;
 const fs = require('fs');
-const stream = require('stream');
 
-let fileArr = [];
-let newFileArr = [];
-let newDeletedFileArr = [];
-let newFileOne;
-let fileOne;
-let rooney = '';
 let testFile;
-let file;
 
 const dir =  __dirname + '/../data';
 if (!fs.existsSync(dir)) {
@@ -26,7 +18,6 @@ require(__dirname + '/../lib/server');
 
 describe('rest api tests', () => {
   beforeEach('read files in data', (done) => {
-    fileArr = fs.readdirSync(__dirname + '/../data');
     testFile = '{"test": "test"}';
     done();
   });
@@ -36,9 +27,8 @@ describe('rest api tests', () => {
       .post('/rooney')
       .send(testFile)
       .end((err, res) => {
-        newDeletedFileArr = fs.readdirSync(__dirname + '/../data');
         expect(err).to.eql(null);
-        expect(newDeletedFileArr).to.eql(fileArr);
+        expect(res.body.message).to.eql('Wrote a new file');
         expect(res).to.have.status(200);
         done();
       });
@@ -47,7 +37,6 @@ describe('rest api tests', () => {
     request('localhost:3000')
      .delete('/rooney')
      .end((err, res) => {
-      //  newFileArr = fs.readdirSync(__dirname + '/../data');
        expect(err).to.eql(null);
        expect(res.body.message).to.eql('successfully deleted');
        expect(res).to.have.status(200);
@@ -86,16 +75,13 @@ describe('rest api tests', () => {
   });
 
   describe('put tests', () => {
-    before('read file', () => {
-      fileOne = fs.readFileSync(__dirname + '/../data/1.json').toString();
-    });
+
     it('should put properly', (done) =>
    {
       request('localhost:3000')
         .put('/rooney/1')
         .send('{"test": "test"}')
         .end((err, res) => {
-          newFileOne = fs.readFileSync(__dirname + '/../data/1.json').toString();
           expect(err).to.eql(null);
           expect(res.body.message).to.eql('successfully updated');
           expect(res).to.have.status(200);
