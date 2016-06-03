@@ -46,9 +46,8 @@ router.get('/average-height', (req, res, next) => {
       'avgHeight': {'$avg': '$height'}
     }
   }, (err, nbaPlayers) => {
-      if (err) return next(err);
-      console.log('avg', nbaPlayers[0].avgHeight)
-      res.json(nbaPlayers[0]);
+    if (err) return next (err);
+    res.json(nbaPlayers[0]);
   });
 });
 
@@ -86,8 +85,13 @@ router.delete('/:id', (req, res, next) => {
 });
 
 router.get('/average-weight', (req, res, next) => {
-  NflPlayer.find({}, (err, nflPlayers) => {
-      if (err) return next(err);
-      res.json(nflPlayers);
+  NflPlayer.aggregate({
+    '$group': {
+      '_id': null,
+      'avgWeight': {'$avg': '$weight'}
+    }
+  }, (err, nflPlayers) => {
+    if (err) return next (err);
+    res.json(nflPlayers[0]);
   });
 });
