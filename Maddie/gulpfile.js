@@ -1,41 +1,16 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
-//const mocha = require('gulp-mocha');
+const mocha = require('gulp-mocha');
 
-// gulp.task('test_task', () => {
-//   return gulp.src('./test/test.js')
-//     .pipe(mocha());
-// });
+gulp.task('test_task', () => {
+  return gulp.src('./test/test.js')
+    .pipe(mocha());
+});
 
-gulp.task('default', ['lint']);
+gulp.task('default', ['lint', 'test_task']);
 
 gulp.task('lint', () => {
-  gulp.src(['./routes/frenchieRouter.js', './schema/frenchies.js', './server.js', './gulpfile.js'])
-    .pipe(eslint({
-
-      'settings': {
-        'ecmascript': 5
-      },
-      'ecmaFeatures': {
-      },
-      'env': {
-        'browser': true,
-        'jquery': true
-      },
-      'rules': {
-        'semi': 1,
-        'strict': 0,
-        'indent': [2, 2],
-        'quotes': [1, 'single'],
-        'no-multi-spaces': [1, {
-          'exceptions': {
-            'VariableDeclarator': true,
-            'FunctionExpression': true
-          }
-        }],
-        'key-spacing': [0, {'align': 'value'}],
-        'no-underscore-dangle': 0
-      }
-    }))
+  gulp.src('/server.js')
+    .pipe(eslint())
     .pipe(eslint.format());
 });

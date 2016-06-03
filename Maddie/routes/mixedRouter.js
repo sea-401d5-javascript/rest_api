@@ -1,41 +1,44 @@
-'use strict'
+'use strict';
 
-const express = require('express')
-const bodyParser = require('body-parser').json
-const Frenchie = require('../schema/frenchies.js')
-const Dogwalkers = require('../schema/dogWalkers.js')
+const express = require('express');
+const Frenchie = require('../schema/frenchies.js');
+const Dogwalkers = require('../schema/dogWalkers.js');
 
-const mixedRouter = module.exports = express.Router()
+const mixedRouter = module.exports = express.Router();
 
 mixedRouter.get('/', (req,res,next) => {
   let dogWalkers_bitten;
   let dogs_died;
-  Frenchie.aggregate([
-
-  {
-    '$group':{
-      '_id':null,
-      'total_bitten':{'$sum': '$dogWalkers_bitten'}
-    }
-  }
-], (err,frenchie) => {
-    if(err) return next(err)
-    dogWalkers_bitten = frenchie[0].total_bitten
-
-  })
-
-  Dogwalkers.aggregate([
+  let queryDogW = Dogwalkers.aggregate([
     {
       '$group':{
         '_id':null,
         'dogs_died':{'$sum':'$dogs_died'}
       }
     }
-  ], (err,dogwalkers) => {
-    if(err) return next(err)
-    dogs_died = dogwalkers[0].dogs_died
+  ]).exec();
 
+  let query = Frenchie.aggregate([
+    {
+      '$group':{
+        '_id':null,
+        'total_bitten':{'$sum': '$dogWalkers_bitten'}
+      }
+    }
+  ]).exec();
+  query.then((data) => {
+    dogWalkers_bitten = data[0].total_bitten;
+    console.log('inside promise', dogWalkers_bitten);
+    return queryDogW;
   })
-var message = `${dogWalkers_bitten > dogs_died ? 'A dogwalker': 'A dog'} has died`
-res.json(message)
-})
+  .then((data) => {
+    dogs_died = data[0].dogs_died;
+    console.log('inside promise', dogs_died);
+    var message = `${dogWalkers_bitten > dogs_died ? 'A dogwalker': 'A dog'} has died`;
+    res.json(message);
+  })
+  .catch((err) => {
+    return next(err);
+  });
+   
+});
