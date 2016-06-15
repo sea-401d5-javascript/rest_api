@@ -1,8 +1,8 @@
 'use strict';
 
 const express = require('express');
-const BarcaPlayer = require('../model/barca_Player');
-const ManUnitedPlayer = require('../model/man_United_Player');
+const BarcaPlayer = require('../schema/barca_Player');
+const ManUnitedPlayer = require('../schema/man_United_Player');
 
 const router = module.exports = exports = express.Router();
 
