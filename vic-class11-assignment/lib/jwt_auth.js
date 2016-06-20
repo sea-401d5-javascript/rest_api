@@ -1,7 +1,7 @@
 'use strict';
 
 const jwt = require('jsonwebtoken');
-const User = require('./model/user.js');
+const User = require('../model/user.js');
 const secret = process.env.SECRET || 'changeme';
 
 module.exports = function(req, res, next) {
