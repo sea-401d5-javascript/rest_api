@@ -24,8 +24,8 @@ iceCreamRouter.post('/', jsonParser, (req, res, next) => {
   });
 });
 
-iceCreamRouter.put('/', jsonParser, (req, res, next) => {
-  let _id = req.body._id;
+iceCreamRouter.put('/:id', jsonParser, (req, res, next) => {
+  let _id = req.params.id;
   IceCream.findOneAndUpdate({_id}, req.body, (err) => {
     if(err) return next(err);
     let message = 'successfully updated';
