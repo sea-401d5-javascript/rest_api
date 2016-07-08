@@ -2,6 +2,7 @@
 const express = require('express');
 const Cat = require('../model/cats');
 const bodyParser = require('body-parser').json();
+const jwtAuth = require('../lib/jwt_auth');
 
 
 const catRouter = module.exports = exports = express.Router();
@@ -14,7 +15,7 @@ catRouter.get('/', (req, res, next) => {
   });
 });
 
-catRouter.post('/', bodyParser, (req, res, next) => {
+catRouter.post('/', bodyParser, jwtAuth, (req, res, next) => {
   let newCat = new Cat(req.body);
   newCat.save((err, cat)=> {
     if (err) return next(err);
@@ -22,7 +23,7 @@ catRouter.post('/', bodyParser, (req, res, next) => {
   });
 });
 
-catRouter.put('/', bodyParser, (req, res, next) => {
+catRouter.put('/', bodyParser, jwtAuth, (req, res, next) => {
   let _id = req.body._id;
   Cat.findOneAndUpdate({_id}, req.body, (err, cat) =>{
     if (err) return next(err);
@@ -30,7 +31,7 @@ catRouter.put('/', bodyParser, (req, res, next) => {
   });
 });
 
-catRouter.delete('/:id', (req, res, next) => {
+catRouter.delete('/:id', jwtAuth, (req, res, next) => {
   let _id = req.params.id;
   Cat.findOneAndRemove({_id}, null, (err, cat) => {
     if (err) return next(err);

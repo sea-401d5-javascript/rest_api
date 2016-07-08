@@ -20,7 +20,7 @@ router.post('/signup', bodyParser, (req, res, next) => {
   });
 });
 
-router.get('/signin', basicHTTP, (req, res, next) => {
+router.post('/signin', basicHTTP, (req, res, next) => {
   User.findOne({username: req.auth.username}, (err, user) => {
     if (err || !user) return next(new Error('Could not sign in'));
     if (!user.comparePassword(req.auth.password)) return next(new Error('wrong password'));

@@ -5,7 +5,9 @@ const User = require('../model/user');
 const secret = process.env.SECRET || 'changeme';
 
 module.exports = function(req, res, next) {
-  let token = req.body.token || req.headers.token;
+
+
+  let token = req.headers.token || req.body.token;
   let tokenErr = new Error('Authorization Failure');
   let decodedToken;
 

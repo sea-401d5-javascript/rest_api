@@ -12,13 +12,13 @@ mongoose.connect(dbPort);
 
 const dogRouter = require(__dirname + '/routes/dog-route');
 const catRouter = require(__dirname + '/routes/cat-route');
-// const authRouter = require(__dirname + '/routes/router');
+const authRouter = require(__dirname + '/routes/router');
 
 app.use(cors());
 app.use(morgan('dev'));
 app.use('/dogs', dogRouter);
 app.use('/cats', catRouter);
-// app.use('/', authRouter);
+app.use('/', authRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).json({message: err.message});
