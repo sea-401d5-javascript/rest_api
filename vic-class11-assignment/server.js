@@ -11,7 +11,7 @@ const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
 
 mongoose.connect(dbPort);
 
-// const authRouter = require('./routes/auth_routes');
+const authRouter = require('./routes/auth_routes');
 const iceCreamRouter = require('./routes/icecream_routes');
 const milkShakeRouter = require('./routes/milkshake_routes');
 
@@ -21,6 +21,7 @@ app.use(morgan('dev'));
 // app.use('/', authRouter);
 app.use('/icecream', iceCreamRouter);
 app.use('/milkshake', milkShakeRouter);
+app.use('/', authRouter);
 
 app.use(errorHandler);
 
