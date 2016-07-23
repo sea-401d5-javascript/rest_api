@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const IceCream = require('../model/icecream');
-// const jwt = require('../lib/jwt_auth');
+const jwt = require('../lib/jwt_auth');
 
 const iceCreamRouter = module.exports = exports = express.Router();
 
@@ -16,7 +16,7 @@ iceCreamRouter.get('/', (req, res, next) => {
   });
 });
 
-iceCreamRouter.post('/', jsonParser, (req, res, next) => {
+iceCreamRouter.post('/', jwt, jsonParser, (req, res, next) => {
   let newIceCream = new IceCream(req.body);
   newIceCream.save((err, icecream) => {
     if(err) return next(err);
@@ -24,7 +24,7 @@ iceCreamRouter.post('/', jsonParser, (req, res, next) => {
   });
 });
 
-iceCreamRouter.put('/:id', jsonParser, (req, res, next) => {
+iceCreamRouter.put('/:id', jwt, jsonParser, (req, res, next) => {
   let _id = req.params.id;
   IceCream.findOneAndUpdate({_id}, req.body, (err) => {
     if(err) return next(err);
@@ -33,7 +33,7 @@ iceCreamRouter.put('/:id', jsonParser, (req, res, next) => {
   });
 });
 
-iceCreamRouter.delete('/:id', (req, res, next) => {
+iceCreamRouter.delete('/:id', jwt, (req, res, next) => {
   let _id = req.params.id;
   IceCream.findOneAndRemove({_id}, (err) => {
     if(err) return next(err);
