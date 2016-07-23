@@ -16,7 +16,7 @@ authRouter.post('/signup', bodyParser, (req, res, next) => {
     if(err || user) return next(new Error('could not create user'));
     newUser.save((err, user) => {
       if(err) return next(new Error('could not create user'));
-      res.json({token: user.generateToken()});
+      res.json({token:user.generateToken()});
     });
   });
 });

@@ -18,10 +18,9 @@ const milkShakeRouter = require('./routes/milkshake_routes');
 app.use(cors());
 
 app.use(morgan('dev'));
-// app.use('/', authRouter);
+app.use('/', authRouter);
 app.use('/icecream', iceCreamRouter);
 app.use('/milkshake', milkShakeRouter);
-app.use('/', authRouter);
 
 app.use(errorHandler);
 
