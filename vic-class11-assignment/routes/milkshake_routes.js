@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const MilkShake = require('../model/milkshake');
-const jwt = require('../lib/jwt_auth')
+const jwt = require('../lib/jwt_auth');
 
 const milkShakeRouter = module.exports = exports = express.Router();
 
