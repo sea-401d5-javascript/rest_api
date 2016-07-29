@@ -1,31 +1,26 @@
 'use strict';
-const app = require('express')();
+
+const express = require('express');
 const mongoose = require('mongoose');
-const Router = require('./route/routes');
-const bodyParser = require('body-parser').json();
-const jwt = require('./lib/jwt');
-const errorHandler = require('./lib/error-handler');
+const nbaRouter = require('./routes/nba-router');
+const nflRouter = require('./routes/nfl-router');
+const userRouter = require('./routes/user-routes.js');
+const app = express();
 
 const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
 
 mongoose.connect('mongodb://localhost/dev_db');
 
-const playerRouter = require('./routes/player-routes');
-
-app.use('/', Router);
-app.use('/nbaPlayers', playerRouter);
-app.use('/nflPlayers', playerRouter);
-
-app.get('/test', (req, res) => {
-  res.send('no token required');
-});
-
-app.post('/test', bodyParser, jwt, (req, res) => {
-  res.json({message:'token required', user: req.user});
-});
+app.use('/', userRouter);
+app.use('/nbaPlayers', nbaRouter);
+app.use('/nflPlayers', nflRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).json({message: err.message});
+});
+
+app.get('/*', (req, res)=>{
+  res.status(404).json({message:'not found'});
 });
 
 app.listen(3000, () => console.log('up on 3000'));
